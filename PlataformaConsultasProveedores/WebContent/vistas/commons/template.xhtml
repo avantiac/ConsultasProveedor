@@ -1,0 +1,60 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" 
+	template="commonTemplate.xhtml">
+
+	<ui:define name="script">
+		<script type="text/javascript">
+		 //<![CDATA[ 
+	    var running = false;
+		var endTime = null;
+		var timerID = null;
+
+		function setFocus(id){
+			PrimeFaces.focus(id);
+		}
+
+		function numbersonly(e, decimal){
+		var key;
+		var keychar;
+		if (window.event)
+			key = window.event.keyCode;
+	    else if(e)
+		    key = e.which;
+	    else 
+		    return true;
+		keychar = String.fromCharCode(key);
+	    if ((key==null) || (key==0) || (key==8) ||  (key==9) || (key==13) || (key==27)){
+	       return true;     
+	    }else if ((("0123456789").indexOf(keychar) > -1)){
+	       return true;
+	    }else if (decimal && (keychar == ".")){
+	       return true;        
+	    }else{
+	       return false;
+	    }
+		}
+
+	 //]]>
+		</script>
+	</ui:define>
+	<ui:define name="menu">
+		<h:form id="formMenu">
+			<p:menubar style="z-index:5;">
+				<p:menuitem value="Registrar Usuario" 			url=""/>
+				<p:menuitem value="Registrar Roles" 			url=""/>
+				<p:menuitem value="Registrar Proyecto"			url=""/>
+				<p:menuitem value="Asiganar Proyecto"		 	url=""/>
+				<p:menuitem value="Bandeja"		 				url="/vistas/mensajes/deliverSMS.xhtml"/>
+				<p:menuitem value="Cambiar Clave" 				url="/vistas/mensajes/deliverSMS.xhtml"/>
+			</p:menubar>
+		</h:form>
+	</ui:define>
+
+	<ui:define name="inf_gral"></ui:define>
+
+	<ui:define name="content"></ui:define>
+
+</ui:composition>

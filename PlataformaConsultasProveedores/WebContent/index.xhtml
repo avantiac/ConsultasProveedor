@@ -1,0 +1,46 @@
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="vistas/commons/templateInicial.xhtml">
+
+	<ui:define name="content">
+		<p:panel	header="#{msj['general.InicioSesion']} "
+					style="width:40%;margin:auto">	
+			<h:form 	id="IDFrmIniciarSession">
+				<p:panelGrid	id="IDPnlGridIniciarSesion"
+								style="margin-top: 10pt; margin:0 auto;">
+					<p:row>
+						<p:column>
+							<h:outputText value="#{msj['general.idUsuario']}" />
+						</p:column>
+						<p:column style="#{msj['p.column_width_mediano_inputText']}">
+							<p:inputText	value="#{ingreso.user}" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<h:outputText value="#{msj['general.clave']}" />
+						</p:column>
+						<p:column>
+							<p:password	id="IDPwdContraseña"
+										title="Contraseña" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column	colspan="4"
+									style="text-aling:center;">
+							<center>
+								<p:commandButton	value="#{msj['p.commanButton_Iniciar']}"
+													actionListener="#{ingreso.loginUsuario(param['IDFrmIniciarSession:IDPwdContraseña'])}"/>
+							</center>
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>

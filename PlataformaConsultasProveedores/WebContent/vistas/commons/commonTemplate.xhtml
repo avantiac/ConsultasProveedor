@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html 	xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:f="http://java.sun.com/jsf/core">
+
+	<h:head>
+	<ui:insert 	name = "script"></ui:insert>
+		<meta 	http-equiv="Content-Type" 
+				content="text/html; charset=UTF-8" />
+		<meta	http-equiv="X-UA-Compatible" 
+				content="IE=EmulateIE8" />
+		<link 	type="text/css" 
+				rel="stylesheet"
+				href="#{request.contextPath}/resources/css/config.css" />
+		<link 	type="text/css" 
+				rel="stylesheet"
+				href="#{request.contextPath}/resources/css/site.css" />	
+		<script type="text/javascript" 
+				src="#{request.contextPath}/resources/js/reloj.js"></script>
+		<script type="text/javascript" 
+				src="#{request.contextPath}/resources/js/calendar_es.js"></script>
+		<script type="text/javascript">
+		  document.onkeydown = checkKeycode;
+		  
+		    function checkKeycode(e) {
+		        var keycode;
+		        if (window.event)
+		            keycode = window.event.keyCode;
+		        else if (e)
+		            keycode = e.which;
+	
+		        // Mozilla firefox
+		        if ($.browser.mozilla) {
+		            if (keycode == 116 ||(e.ctrlKey &amp;&amp; keycode == 82)) {
+		                if (e.preventDefault)
+		                {
+		                    e.preventDefault();
+		                    e.stopPropagation();
+		                }
+		            }
+		        } 
+		        // IE
+		        else if ($.browser.msie) {
+		            if (keycode == 116 || (window.event.ctrlKey &amp;&amp; keycode == 82)) {
+		                window.event.returnValue = false;
+		                window.event.keyCode = 0;
+		                window.status = "Refresh is disabled";
+		            }
+		        }
+		    }
+		</script>
+		<title><ui:insert name="titulo-pagina">PCP</ui:insert>
+		 </title>
+	</h:head>
+	
+	<h:body onload="mueveReloj();" style="font-size: 0.65em !important;">
+		 <div id="main">
+	    <div class="main">
+		      <div class="header">
+		        <div 	id="header_left" 
+		        		class="header_izq" ></div>
+		        <div 	id="header_right" 
+		        		class="header_der">PLATAFORMA DE CONSULTAS PROVEEDORES</div>
+		        <div 	id="reloj" 
+		        		class="header_fecha"></div>
+		    
+		      </div>
+		  		<!--Fin  class header--> 
+		    	<p:growl 	id="IDGrowlErrorSistemas" 
+		    				showSummary="true"
+							showDetail="true" 
+							sticky="true" 
+							autoUpdate="false" 
+							globalOnly="true" />
+	
+				<p:growl 	id="IDGrowlMensaje" 
+							showDetail="true" 
+							life="3500"
+							autoUpdate="false" 
+							globalOnly="true" />
+		    <div id="menu" >
+		       <ui:insert  name = "menu"/> 
+		     </div> 
+		    
+		    <div id="inf_gral" >
+		       <ui:insert name = "inf_gral"/>
+		    </div> 
+		    <div id="contenido">
+		    
+		        <ui:insert name = "content"/>
+		        <ui:insert name="dialog" />
+		    
+		    </div>
+		    <div id="footer">Todos los derechos reservados, Avantia Consultores 2015. </div>
+		    </div> 
+		   
+	  </div>
+	</h:body>
+</html>
