@@ -1,0 +1,171 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="./../commons/template.xhtml">
+	<ui:define name="content">
+		<p:panel id="IDPanel" header="#{msj['header.usuarios']}"
+			style="#{msj['p.panelGrande']} margin-top: 10pt;">
+			<h:form id="IDFindex">
+				<center>
+				
+				<p:panelGrid >
+			        
+
+			        
+			        <p:row>
+			        <p:column>
+			        <p:outputLabel value="#{msj['usuarios.usuario']}" />
+			        </p:column>
+			        
+			        <p:column>
+			        <p:inputText value="#{beansRegistrarUsuario.usuarios.usuario}"/>
+			        </p:column>
+			        </p:row>
+			        
+			        
+			        <p:row>
+			        <p:column>
+			        <p:outputLabel value="#{msj['usuarios.clave']}" />
+			        </p:column>
+			        
+			        <p:column>
+			        <p:password value="#{beansRegistrarUsuario.usuarios.clave}"/>
+			        </p:column>
+			        </p:row>
+			        
+			         <p:row>
+			        <p:column>
+			        <p:outputLabel value="#{msj['usuarios.confirmar.clave']}" />
+			        </p:column>
+			        
+			        <p:column>
+			        <p:password value="#{beansRegistrarUsuario.usuarios.clave}"/>
+			        </p:column>
+			        </p:row>
+			        
+			        <p:row>
+			        <p:column>
+			        <p:outputLabel value="#{msj['usuarios.empresa']}" />
+			        </p:column>
+			        
+			        <p:column>
+			        <p:inputText value="#{beansRegistrarUsuario.usuarios.empresa}"/>
+			        </p:column>
+			        </p:row>
+			        
+			          <p:row>
+			        <p:column>
+			        <p:outputLabel value="#{msj['usuarios.contacto']}" />
+			        </p:column>
+			        
+			        <p:column>
+			        <p:inputText value="#{beansRegistrarUsuario.usuarios.contacto}"/>
+			        </p:column>
+			        </p:row>
+			        
+			        
+			        <p:row>
+			        <p:column>
+			        <p:outputLabel value="#{msj['usuarios.correo']}" />
+			        </p:column>
+			        
+			        <p:column>
+			        <p:inputText value="#{beansRegistrarUsuario.usuarios.correo}"/>
+			        </p:column>
+			        </p:row>
+			        
+			        <p:row>
+			        <p:column>
+			        <p:outputLabel value="#{msj['usuarios.telefono']}" />
+			        </p:column>
+			        
+			        <p:column>
+			        <p:inputText value="#{beansRegistrarUsuario.usuarios.telefono}"/>
+			        </p:column>
+			        </p:row>
+			        
+			         <p:row>
+			        <p:column>
+			        <p:outputLabel value="#{msj['usuarios.movil']}" />
+			        </p:column>
+			        
+			        <p:column>
+			        <p:inputText value="#{beansRegistrarUsuario.usuarios.movil}"/>
+			        </p:column>
+			        </p:row>
+			        
+			         <p:row>
+			        <p:column>
+			        <p:outputLabel value="#{msj['usuarios.rol']}" />
+			        </p:column>
+			        
+			        <p:column>
+			        <p:selectOneMenu value="#{beansRegistrarUsuario.usuarios.rol}">
+		            
+			        </p:selectOneMenu>
+			        </p:column>
+			        </p:row>
+			        
+			        
+			         <p:row>
+			        <p:column>
+			        <p:outputLabel value="#{msj['usuarios.estado']}" />
+			        </p:column>
+
+			        <p:column>
+                    
+                    <p:selectBooleanCheckbox />
+                    
+			        </p:column>
+			        </p:row>
+			        </p:panelGrid> 		
+			        <p:panelGrid>					
+					<p:row>
+				    <p:column>
+				    <p:commandButton value="#{msj['p.commanButton_Guardar']}" actionListener="#{beansRegistrarUsuario.registrarUsuario}" />
+					</p:column>
+					
+					<p:column>
+				    <p:commandButton value="#{msj['p.commanButton_Actualizar']}" actionListener="#{beansRegistrarUsuario.actualizarUsuario}"/>
+					</p:column>
+					
+					<p:column>
+				    <p:commandButton value="#{msj['p.commanButton_Eliminar']}"  actionListener="#{beansRegistrarUsuario.eliminarUsuario}"/>
+					</p:column>
+					
+					</p:row>
+					</p:panelGrid> 
+							
+				<p:dataTable var="tablausuarios" value="#{beansRegistrarUsuario.tablaUsuario}">
+                <p:column headerText="#{msj['usuarios.nombre']}">
+                <h:outputText  value="#{tablausuarios.usuario}" />
+                 </p:column>
+ 
+                 <p:column headerText="#{msj['usuarios.rol']}">
+                 <h:outputText value="#{tablausuarios.nombre_rol}" />
+                 </p:column>
+ 
+                 <p:column headerText="#{msj['usuarios.estado']}">
+                 <h:outputText value="#{tablausuarios.status_rol}"/>
+                 </p:column>
+ 
+                 <p:column headerText="#{msj['usuarios.rol']}">
+                 <h:outputText value="#{tablausuarios.nombre_rol}" />
+                 </p:column>
+                 
+                 <p:column headerText="#{msj['usuarios.correo']}">
+                 <h:outputText value="#{tablausuarios.correo}" />
+                 </p:column>
+                 
+                 </p:dataTable>
+					
+					
+					
+						
+				</center>
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>

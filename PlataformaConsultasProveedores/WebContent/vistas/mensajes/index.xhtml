@@ -1,0 +1,50 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="./../commons/template.xhtml">
+	<ui:define name="content">
+		<p:panel id="IDPanel" header="#{msj['header.index']}"
+			style="#{msj['p.panelGrande']} margin-top: 10pt;">
+			<h:form id="IDFindex">
+				<center>
+				
+					<p:panelGrid>
+					<p:row>
+					<p:column>
+					<p:outputLabel value="#{msj['p.token.user']}"/>
+					</p:column>
+	
+				
+					<p:column>
+					<p:inputText  value="#{beansLogin.usuarios.usuario}"  />
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column>
+					<p:outputLabel value="#{msj['p.token.key']}"/>
+					</p:column>				
+			
+					<p:column>
+					<p:password  value="#{beansLogin.usuarios.clave}"   />
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column>
+					<p:commandButton  value="#{msj['p.commanButton_Iniciar']}" actionListener="#{beansLogin.iniciar}"/>
+					</p:column>
+					
+					<p:column>
+					</p:column>
+					</p:row>
+					
+					</p:panelGrid>
+						
+				</center>
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>

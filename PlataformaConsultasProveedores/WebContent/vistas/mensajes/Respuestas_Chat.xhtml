@@ -1,0 +1,82 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="./../commons/template.xhtml">
+	<ui:define name="content">
+		<p:panel id="IDPanel" header="#{msj['p.token.header']}"
+			style="#{msj['p.panelGrande']} margin-top: 10pt;">
+			<h:form id="IDFindex">
+				<center>
+				
+				<p:panelGrid >
+			        
+			         <p:row>
+			        <p:column>
+			        <p:outputLabel value="#{msj['usuarios.nombre']}" />
+			        </p:column>
+			        
+			        <p:column>
+			        <p:outputLabel value="#{beansRespuestaChat.respuestas.usuario}" />
+			        </p:column>
+			        </p:row>
+			        
+			        <p:row>
+			        <p:column>
+			        <p:outputLabel value="#{msj['proyecto.nombre']}" />
+			        </p:column>
+			        
+			        <p:column>
+			        <p:outputLabel value="#{beansRespuestaChat.respuestas.proyecto}" />
+			        </p:column>
+			        </p:row>
+			        
+			         <p:row>
+			        <p:column>
+			        <p:outputLabel value="#{msj['chat.descripcion']}" />
+			        </p:column>
+			        
+			        <p:column>
+			        <p:inputTextarea rows="3" cols="33" value="#{beansRespuestaChat.respuestas.pregunta}" />
+			        </p:column>
+			        </p:row>
+			        
+			        
+			        </p:panelGrid> 		
+			        <p:panelGrid>					
+					<p:row>
+				    <p:column>
+				    <p:commandButton value="#{msj['p.commanButton_Enviar']}"  actionListener="#{beansRespuestaChat.responderChat}"/>
+					</p:column>
+					 <p:column>
+				    <p:button value="#{msj['p.commanButton_Retornar']}"/>
+					</p:column>
+					</p:row>
+					</p:panelGrid> 
+							
+				<p:dataTable var="respsms" actionListener="#{beansRespuestaChat.listaresp}" >
+                 
+                 <p:column headerText="#{msj['usuarios.nombre']}">
+                 <h:outputText value="#{respsms.usuario}" />
+                 </p:column>
+                 
+                 <p:column headerText="#{msj['proyecto.nombre']}">
+                 <h:outputText value="#{respsms.proyecto}" />
+                 </p:column>
+                               
+                 <p:column headerText="#{msj['chat.descripcion']}">
+                 <h:outputText value="respsms.pregunta" />
+                 </p:column>
+                 
+                <p:column headerText="#{msj['chat.fecha']}" >
+                <h:outputText value="respsms.fecha_pregunta" />
+                 </p:column>
+                 
+                 </p:dataTable>
+						
+				</center>
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>

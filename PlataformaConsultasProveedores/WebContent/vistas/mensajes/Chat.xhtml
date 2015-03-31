@@ -1,0 +1,59 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="./../commons/template.xhtml">
+	<ui:define name="content">
+		<p:panel id="IDPanel" header="#{msj['header.chat']}"
+			style="#{msj['p.panelGrande']} margin-top: 10pt;">
+			<h:form id="IDFindex">
+				<center>
+				
+					        <p:panelGrid>					
+					<p:row>
+				    <p:column>
+				    <p:button value="#{msj['p.commanButton_Preguntar']}" />
+					</p:column>
+					 <p:column>
+				    <p:button value="#{msj['p.commanButton_Responder']}"/>
+					</p:column>
+					<p:column>
+				    <p:button value="#{msj['p.commanButton_Actualizar']}"/>
+					</p:column>
+					</p:row>
+					</p:panelGrid> 
+							
+				<p:dataTable var="tablachat" value="#{beansChat.listapreguntas}" >
+                <p:column headerText="#{msj['chat.proyecto']}" >
+                <h:outputText value="#{tablachat.proyecto}" />
+                 </p:column>
+                 
+                 
+                 <p:column headerText="#{msj['chat.nombre']}" >
+                <h:outputText value="#{tablachat.usuario}" />
+                 </p:column>
+                 
+                 <p:column headerText="#{msj['chat.descripcion']}">
+                 <h:outputText value="#{tablachat.pregunta}"  />
+                 </p:column>
+                 
+                  <p:column headerText="#{msj['chat.estado']}">
+                 <h:outputText value="#{tablachat.status_pregunta}" />
+                 </p:column>
+                 
+                 <p:column headerText="#{msj['chat.fecha']}">
+                 <h:outputText value="#{tablachat.fecha_pregunta}" />
+                 </p:column>
+                 
+                 </p:dataTable>
+						
+				</center>
+			</h:form>
+		</p:panel>
+		
+	</ui:define>
+	
+		
+
+</ui:composition>

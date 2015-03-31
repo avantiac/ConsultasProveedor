@@ -1,0 +1,70 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="./../commons/template.xhtml">
+	<ui:define name="content">
+		<p:panel id="IDPanel" header="#{msj['header.roles']}"
+			style="#{msj['p.panelGrande']} margin-top: 10pt;">
+			<h:form id="IDFindex">
+				<center>
+				
+                    <p:panelGrid >
+			        
+			        <p:row>
+			        <p:column>
+			        <p:outputLabel value="#{msj['roles.nombre']}" />
+			        </p:column>
+			        
+			        <p:column>
+			        <p:inputText value="#{beansRegistrarRoles.roles.nombre_rol}"/>
+			        </p:column>
+			        </p:row>
+			        
+			         <p:row>
+			        <p:column>
+			        <p:outputLabel value="#{msj['roles.estado']}" />
+			        </p:column>
+			        
+			        <p:column>
+			        <p:selectBooleanCheckbox />        
+			        </p:column>
+			        </p:row>
+			        
+			        </p:panelGrid> 		
+			        <p:panelGrid>					
+					<p:row>
+				    <p:column>
+				    <p:commandButton value="#{msj['p.commanButton_Guardar']}" actionListener="#{beansRegistrarRoles.registrarRoles}"/>
+					</p:column>
+					 <p:column>
+				    <p:commandButton value="#{msj['p.commanButton_Actualizar']}" actionListener="#{beansRegistrarRoles.actualizarRoles}"/>
+					</p:column>
+					
+					<p:column>
+				    <p:commandButton value="#{msj['p.commanButton_Eliminar']}" actionListener="#{beansRegistrarRoles.eliminarRoles}"/>
+					</p:column>
+					
+					</p:row>
+					</p:panelGrid> 
+							
+				 			
+							
+				<p:dataTable var="tablaroles"  value="#{beansRegistrarRoles.tablaroles}" >
+				
+				<p:column headerText="#{msj['roles.nombre']}">
+                 <h:outputText value="#{tablaroles.nombre_rol}" />
+                 </p:column>
+                 
+                <p:column headerText="#{msj['roles.estado']}" >
+                <h:outputText value="#{tablaroles.status_rol}" />
+                 </p:column>
+                  
+                 </p:dataTable>
+						
+				</center>
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>
