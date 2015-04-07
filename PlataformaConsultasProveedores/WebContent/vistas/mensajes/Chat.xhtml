@@ -7,19 +7,16 @@
 	<ui:define name="content">
 		<p:panel id="IDPanel" header="#{msj['header.chat']}"
 			style="#{msj['p.panelGrande']} margin-top: 10pt;">
-			<h:form id="IDFindex">
+			<h:form id="IDFchat">
 				<center>
 				
-					        <p:panelGrid>					
+					<p:panelGrid>					
 					<p:row>
 				    <p:column>
-				    <p:button value="#{msj['p.commanButton_Preguntar']}" />
+				    <p:commandButton value="#{msj['p.commanButton_Preguntar']}" actionListener="#{beansRegistrarProyecto.preguntar}"/>
 					</p:column>
 					 <p:column>
-				    <p:button value="#{msj['p.commanButton_Responder']}"/>
-					</p:column>
-					<p:column>
-				    <p:button value="#{msj['p.commanButton_Actualizar']}"/>
+				    <p:commandButton value="#{msj['p.commanButton_Responder']}" actionListener="#{beansRegistrarProyecto.responder}"/>
 					</p:column>
 					</p:row>
 					</p:panelGrid> 
@@ -31,7 +28,7 @@
                  
                  
                  <p:column headerText="#{msj['chat.nombre']}" >
-                <h:outputText value="#{tablachat.usuario}" />
+                <h:outputText value="#{tablachat.asignacion.usuario.usuario}" />
                  </p:column>
                  
                  <p:column headerText="#{msj['chat.descripcion']}">
@@ -39,11 +36,11 @@
                  </p:column>
                  
                   <p:column headerText="#{msj['chat.estado']}">
-                 <h:outputText value="#{tablachat.status_pregunta}" />
+                 <h:outputText value="#{tablachat.estado}" />
                  </p:column>
                  
                  <p:column headerText="#{msj['chat.fecha']}">
-                 <h:outputText value="#{tablachat.fecha_pregunta}" />
+                 <h:outputText value="#{tablachat.fecha_creacion}" />
                  </p:column>
                  
                  </p:dataTable>

@@ -7,7 +7,7 @@
 	<ui:define name="content">
 		<p:panel id="IDPanel" header="#{msj['header.asignar.proyecto']}"
 			style="#{msj['p.panelGrande']} margin-top: 10pt;">
-			<h:form id="IDFindex">
+			<h:form id="IDFasignarproyecto">
 				<center>
 				
 				<p:panelGrid >
@@ -18,9 +18,19 @@
 			        </p:column>
 			        
 			        <p:column>
-			        <p:selectOneMenu value="#{beansAsignarProyecto.asignarproyecto.usuario}">
+			        <p:selectOneMenu id="IDSelOneMnuIdUsuarios"
+			         value="#{beansAsignarProyecto.idUsuario}"  
+			         style="#{msj['p.selectOneMenu_width_mediano']}">
+			         
+			         <f:selectItem itemLabel="#{msj['f.selectItem']}" itemValue="" />
+			         
+			
+			          <f:selectItems value="#{beansAsignarProyecto.litarUsuarios}"
+                    var="VSelItemsUsuarios"
+                    itemLabel="#{VSelItemsUsuarios.usuario}"
+                    itemValue="#{VSelItemsUsuarios.id}" />
 		            
-			        </p:selectOneMenu>
+			        </p:selectOneMenu   >
 			        </p:column>
 			        </p:row>
 			        
@@ -30,7 +40,16 @@
 			        </p:column>
 			        
 			        <p:column>
-			        <p:selectOneMenu value="#{beansAsignarProyecto.asignarproyecto.usuario}">
+			        <p:selectOneMenu id="IDSelOneMnuIdPoryectos" 
+			        value="#{beansAsignarProyecto.idProyecto}"
+			        style="#{msj['p.selectOneMenu_width_mediano']}">
+			        
+			        <f:selectItem itemLabel="#{msj['f.selectItem']}" itemValue="" />
+			        
+			        <f:selectItems value="#{beansAsignarProyecto.litarProyectos}"
+                    var="VSelItemsAsignarProyecto"
+                    itemLabel="#{VSelItemsAsignarProyecto.nombre}"
+                    itemValue="#{VSelItemsAsignarProyecto.id}" />
 		            
 			        </p:selectOneMenu>
 			        </p:column>
@@ -40,11 +59,11 @@
 			        <p:panelGrid>					
 					<p:row>
 				    <p:column>
-				    <p:commandButton value="#{msj['p.commanButton_Guardar']}" actionListener="#{beansAsignarProyecto.asignarProyecto}"/>
+				    <p:commandButton value="#{msj['p.commanButton_Guardar']}" actionListener="#{beansAsignarProyecto.ejecutarProceso}"/>
 					</p:column>
 					
 	                <p:column>
-				    <p:commandButton value="#{msj['p.commanButton_Actualizar']}" actionListener="#{beansAsignarProyecto.actualizarAsignacionProyecto}"/>
+				    <p:commandButton value="#{msj['p.commanButton_Cancelar']}" actionListener="#{beansAsignarProyecto.cancelar}"/>
 					</p:column>
 					
 					
@@ -55,17 +74,19 @@
 					</p:row>
 					</p:panelGrid> 
 							
-				<p:dataTable var="Nombre" value=""> 
+				<p:dataTable var="tablaAsignar" value="#{beansAsignarProyecto.litasAsigProy}"  selectionMode="single"	selection="#{beansAsignarProyecto.selectAsignar}" rowKey="#{tablaAsignar.id}" > 
+                
+                <p:ajax event="rowSelect" listener="#{beansAsignarProyecto.onRowSelect}" />
                  <p:column headerText="#{msj['usuarios.nombre']}">
-                 <h:outputText value="" />
+                 <h:outputText value="#{tablaAsignar.usuario.usuario}" />
                  </p:column>
  
                  <p:column headerText="#{msj['proyecto.nombre']}">
-                 <h:outputText value="" />
+                 <h:outputText value="#{tablaAsignar.proyecto.nombre}"  />
                  </p:column>
  
                  <p:column headerText="#{msj['chat.fecha']}">
-                 <h:outputText value="" />
+                 <h:outputText value="#{tablaAsignar.fecha_cracion}" />
                  </p:column>
                                   
                  </p:dataTable>

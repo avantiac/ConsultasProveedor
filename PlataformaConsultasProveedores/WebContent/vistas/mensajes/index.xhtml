@@ -10,25 +10,27 @@
 			<h:form id="IDFindex">
 				<center>
 				
-					<p:panelGrid>
+					<p:panelGrid id="gridIndex">
 					<p:row>
 					<p:column>
-					<p:outputLabel value="#{msj['p.token.user']}"/>
+					<p:outputLabel value="#{msj['p.token.user']}"  />
 					</p:column>
 	
 				
 					<p:column>
-					<p:inputText  value="#{beansLogin.usuarios.usuario}"  />
+					<p:inputText   value="#{beansLogin.usuarios.usuario}" />
+						
+                   
 					</p:column>
 					</p:row>
 					
 					<p:row>
 					<p:column>
-					<p:outputLabel value="#{msj['p.token.key']}"/>
+					<p:outputLabel value="#{msj['p.token.key']}"  />
 					</p:column>				
 			
 					<p:column>
-					<p:password  value="#{beansLogin.usuarios.clave}"   />
+					<p:password   value="#{beansLogin.usuarios.clave}"  />
 					</p:column>
 					</p:row>
 					

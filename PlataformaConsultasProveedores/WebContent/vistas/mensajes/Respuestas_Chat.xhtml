@@ -7,7 +7,7 @@
 	<ui:define name="content">
 		<p:panel id="IDPanel" header="#{msj['p.token.header']}"
 			style="#{msj['p.panelGrande']} margin-top: 10pt;">
-			<h:form id="IDFindex">
+			<h:form id="IDFrespuestas">
 				<center>
 				
 				<p:panelGrid >
@@ -18,7 +18,7 @@
 			        </p:column>
 			        
 			        <p:column>
-			        <p:outputLabel value="#{beansRespuestaChat.respuestas.usuario}" />
+			        <p:outputLabel value="#{beansRespuestaChat.respuestas.asignacion.usuario.usuario}" />
 			        </p:column>
 			        </p:row>
 			        
@@ -28,7 +28,7 @@
 			        </p:column>
 			        
 			        <p:column>
-			        <p:outputLabel value="#{beansRespuestaChat.respuestas.proyecto}" />
+			        <p:outputLabel value="#{beansRespuestaChat.respuestas.asignacion.proyecto.nombre}"  />
 			        </p:column>
 			        </p:row>
 			        
@@ -38,7 +38,7 @@
 			        </p:column>
 			        
 			        <p:column>
-			        <p:inputTextarea rows="3" cols="33" value="#{beansRespuestaChat.respuestas.pregunta}" />
+			        <p:inputTextarea rows="3" cols="33" value="#{beansRespuestaChat.respuestas.respuesta}" />
 			        </p:column>
 			        </p:row>
 			        
@@ -55,22 +55,23 @@
 					</p:row>
 					</p:panelGrid> 
 							
-				<p:dataTable var="respsms" actionListener="#{beansRespuestaChat.listaresp}" >
+				<p:dataTable var="respsms" value="#{beansRespuestaChat.listaresp}"  selectionMode="single"	selection="#{beansRespuestaChat.selectRerpuestas}" rowKey="#{respsms.id}">
                  
+                 <p:ajax event="rowSelect" listener="#{beansRespuestaChat.onRowSelect}" />
                  <p:column headerText="#{msj['usuarios.nombre']}">
-                 <h:outputText value="#{respsms.usuario}" />
+                 <h:outputText value="#{respsms.asignacion.usuario.usuario}" />
                  </p:column>
                  
                  <p:column headerText="#{msj['proyecto.nombre']}">
-                 <h:outputText value="#{respsms.proyecto}" />
+                 <h:outputText value="#{respsms.asignacion.proyecto.nombre}" />
                  </p:column>
                                
                  <p:column headerText="#{msj['chat.descripcion']}">
-                 <h:outputText value="respsms.pregunta" />
+                 <h:outputText value="#{respsms.respuesta}" />
                  </p:column>
                  
                 <p:column headerText="#{msj['chat.fecha']}" >
-                <h:outputText value="respsms.fecha_pregunta" />
+                <h:outputText value="#{respsms.fecha_creacion}" />
                  </p:column>
                  
                  </p:dataTable>

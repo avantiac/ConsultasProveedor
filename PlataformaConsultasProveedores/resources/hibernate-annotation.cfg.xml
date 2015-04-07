@@ -35,6 +35,11 @@
         
         <!-- Mapping with model class containing annotations -->
         <mapping class="com.avantia.sv.claro.pcp.entidades.Prueba"  />
-        
+        <mapping class="com.avantia.sv.claro.pcp.entidades.Asignar_Proyecto"  />
+        <mapping class="com.avantia.sv.claro.pcp.entidades.Preguntas"  />
+        <mapping class="com.avantia.sv.claro.pcp.entidades.Proyectos"  />
+        <mapping class="com.avantia.sv.claro.pcp.entidades.Respuestas"  />
+        <mapping class="com.avantia.sv.claro.pcp.entidades.Roles"  />
+        <mapping class="com.avantia.sv.claro.pcp.entidades.Usuarios"  />
     </session-factory>
 </hibernate-configuration>

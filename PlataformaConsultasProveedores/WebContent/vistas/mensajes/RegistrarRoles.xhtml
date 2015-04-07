@@ -7,10 +7,10 @@
 	<ui:define name="content">
 		<p:panel id="IDPanel" header="#{msj['header.roles']}"
 			style="#{msj['p.panelGrande']} margin-top: 10pt;">
-			<h:form id="IDFindex">
+			<h:form id="IDFroles">
 				<center>
 				
-                    <p:panelGrid >
+                    <p:panelGrid id="PGroles">
 			        
 			        <p:row>
 			        <p:column>
@@ -18,7 +18,7 @@
 			        </p:column>
 			        
 			        <p:column>
-			        <p:inputText value="#{beansRegistrarRoles.roles.nombre_rol}"/>
+			        <p:inputText value="#{beansRegistrarRoles.roles.nombre}"/>
 			        </p:column>
 			        </p:row>
 			        
@@ -28,7 +28,7 @@
 			        </p:column>
 			        
 			        <p:column>
-			        <p:selectBooleanCheckbox />        
+			        <p:selectBooleanCheckbox value= "#{beansRegistrarRoles.roles.estado}" />      
 			        </p:column>
 			        </p:row>
 			        
@@ -36,10 +36,10 @@
 			        <p:panelGrid>					
 					<p:row>
 				    <p:column>
-				    <p:commandButton value="#{msj['p.commanButton_Guardar']}" actionListener="#{beansRegistrarRoles.registrarRoles}"/>
+				    <p:commandButton value="#{msj['p.commanButton_Guardar']}" actionListener="#{beansRegistrarRoles.ejecutarProceso}"/>
 					</p:column>
 					 <p:column>
-				    <p:commandButton value="#{msj['p.commanButton_Actualizar']}" actionListener="#{beansRegistrarRoles.actualizarRoles}"/>
+				    <p:commandButton value="#{msj['p.commanButton_Cancelar']}" actionListener="#{beansRegistrarRoles.cancelar}"/>
 					</p:column>
 					
 					<p:column>
@@ -51,14 +51,15 @@
 							
 				 			
 							
-				<p:dataTable var="tablaroles"  value="#{beansRegistrarRoles.tablaroles}" >
+				<p:dataTable var="tablaroles"  value="#{beansRegistrarRoles.tablaroles}"  selectionMode="single"	selection="#{beansRegistrarRoles.selectRoles}" rowKey="#{tablaroles.id}" >
+				<p:ajax event="rowSelect" listener="#{beansRegistrarRoles.onRowSelect}" />
 				
 				<p:column headerText="#{msj['roles.nombre']}">
-                 <h:outputText value="#{tablaroles.nombre_rol}" />
+                 <h:outputText value="#{tablaroles.nombre}" />
                  </p:column>
                  
                 <p:column headerText="#{msj['roles.estado']}" >
-                <h:outputText value="#{tablaroles.status_rol}" />
+                <h:outputText value="#{beansRegistrarRoles.textoDeEstado(tablaroles.estado)}" />
                  </p:column>
                   
                  </p:dataTable>

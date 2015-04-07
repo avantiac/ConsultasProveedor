@@ -3,15 +3,21 @@ package com.avantia.sv.claro.pcp.managebean;
 import java.io.IOException;
 import java.io.Serializable;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+
 
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.menu.MenuModel;
 
-@ManagedBean
-public class Ingreso implements Serializable {
+
+
+@ManagedBean(name="usuarioSessionMB")
+@SessionScoped
+public class Ingreso  implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private static final String USUARIO = "admin";
@@ -20,6 +26,13 @@ public class Ingreso implements Serializable {
 	private String user;
 	private MenuModel model;
 
+	
+
+	
+	@PostConstruct
+	public void inicio(){
+		
+	}
 	/**
 	 * Metodo el cual realiza la verificacion del usuario que pretende loguearse
 	 * 
@@ -59,6 +72,8 @@ public class Ingreso implements Serializable {
 	 * */
 	public void redireccionarPagina(String url) {
 		try {
+			
+			
 			FacesContext.getCurrentInstance().getExternalContext()
 					.redirect("/PlataformaConsultasProveedores" + url);
 		} catch (IOException exception) {
@@ -100,4 +115,8 @@ public class Ingreso implements Serializable {
 	public void setModel(MenuModel model) {
 		this.model = model;
 	}
+	/**
+	 * @return the request
+	 */
+
 }

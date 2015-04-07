@@ -7,7 +7,7 @@
 	<ui:define name="content">
 		<p:panel id="IDPanel" header="#{msj['header.preguntas']}"
 			style="#{msj['p.panelGrande']} margin-top: 10pt;">
-			<h:form id="IDFindex">
+			<h:form id="IDFpreguntar">
 				<center>
 				
 				<p:panelGrid >
@@ -18,7 +18,7 @@
 			        </p:column>
 			        
 			        <p:column>
-			        <p:outputLabel value="#{beansPreguntasChat.preguntas.usuario}" />
+			        <p:outputLabel value="#{beansPreguntasChat.preguntas.asignacion.usuario.usuario}" />
 			        </p:column>
 			        </p:row>
 			        
@@ -28,7 +28,7 @@
 			        </p:column>
 			        
 			        <p:column>
-			        <p:outputLabel value="#{beansPreguntasChat.preguntas.usuario}"/>
+			        <p:outputLabel value="#{beansPreguntasChat.preguntas.asignacion.proyecto.nombre}"/>
 			        </p:column>
 			        </p:row> 
 			        
@@ -54,22 +54,28 @@
 					</p:row>
 					</p:panelGrid> 
 							
-				<p:dataTable var="pregmsm"  value="#{beansPreguntasChat.litaPreguntas}" >
+				<p:dataTable var="pregmsm"  value="#{beansPreguntasChat.litaPreguntas}" selectionMode="single"	selection="#{beansPreguntasChat.selectPreguntas}" rowKey="#{pregmsm.id}" >
                  
+                 
+                 <p:ajax event="rowSelect" listener="#{beansPreguntasChat.onRowSelect}" />
                   <p:column headerText="#{msj['usuarios.nombre']}">
-                 <h:outputText value="#{pregmsm.usuario}" />
+                 <h:outputText value="#{pregmsm.asignacion.usuario.usuario}" />
                  </p:column>
                                    
                  <p:column headerText="#{msj['proyecto.nombre']}">
-                 <h:outputText value="#{pregmsm.proyecto}" />
+                 <h:outputText value="#{pregmsm.asignacion.proyecto.nombre}" />
                  </p:column>
                                
                  <p:column headerText="#{msj['chat.descripcion']}">
                  <h:outputText value="#{pregmsm.pregunta}" />
                  </p:column>
                  
+                 <p:column headerText="#{msj['chat.descripcion']}">
+                 <h:outputText value="#{pregmsm.estado}" />
+                 </p:column>
+                 
                 <p:column headerText="#{msj['chat.fecha']}" >
-                <h:outputText value="#{pregmsm.fecha_pregunta}" />
+                <h:outputText value="#{pregmsm.fecha_creacion}" />
                  </p:column>
                  
                  </p:dataTable>

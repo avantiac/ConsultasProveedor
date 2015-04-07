@@ -3,8 +3,12 @@ package com.avantia.sv.claro.pcp.managebean;
 import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+
+import org.primefaces.context.RequestContext;
 
 import com.avantia.sv.claro.pcp.entidades.Usuarios;
 
@@ -36,7 +40,22 @@ public class BeansLogin implements Serializable {
 	
 	public void iniciar(){
 		
+		if (getUsuarios().getUsuario().equals("") ||getUsuarios().getClave().equals("")){
+			
+			mostrarMensajeError("Tiene que completar todos los campos");
+			
+		}
 		
+	}
+	
+	private void mostrarMensajeError(String msg) {
+		RequestContext requestContext = RequestContext.getCurrentInstance();
+		FacesContext context = FacesContext.getCurrentInstance();
+		context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+				"", msg));
+		if (requestContext != null) {
+			requestContext.update("IDGrowlErrorSistemas");
+		}
 	}
 	
 }

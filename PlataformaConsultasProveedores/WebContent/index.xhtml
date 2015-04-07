@@ -18,7 +18,7 @@
 							<h:outputText value="#{msj['general.idUsuario']}" />
 						</p:column>
 						<p:column style="#{msj['p.column_width_mediano_inputText']}">
-							<p:inputText	value="#{ingreso.user}" />
+							<p:inputText	value="#{usuarioSessionMB.user}" />
 						</p:column>
 					</p:row>
 					<p:row>
@@ -35,7 +35,7 @@
 									style="text-aling:center;">
 							<center>
 								<p:commandButton	value="#{msj['p.commanButton_Iniciar']}"
-													actionListener="#{ingreso.loginUsuario(param['IDFrmIniciarSession:IDPwdContraseña'])}"/>
+													actionListener="#{usuarioSessionMB.loginUsuario(param['IDFrmIniciarSession:IDPwdContraseña'])}"/>
 							</center>
 						</p:column>
 					</p:row>

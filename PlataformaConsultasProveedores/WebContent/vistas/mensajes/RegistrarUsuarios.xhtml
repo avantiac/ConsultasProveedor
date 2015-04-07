@@ -7,13 +7,11 @@
 	<ui:define name="content">
 		<p:panel id="IDPanel" header="#{msj['header.usuarios']}"
 			style="#{msj['p.panelGrande']} margin-top: 10pt;">
-			<h:form id="IDFindex">
+			<h:form id="IDFusuarios">
 				<center>
 				
 				<p:panelGrid >
-			        
-
-			        
+			       
 			        <p:row>
 			        <p:column>
 			        <p:outputLabel value="#{msj['usuarios.usuario']}" />
@@ -102,8 +100,16 @@
 			        </p:column>
 			        
 			        <p:column>
-			        <p:selectOneMenu value="#{beansRegistrarUsuario.usuarios.rol}">
+			        <p:selectOneMenu id="IDSelOneMnuIdRoles" value="#{beansRegistrarUsuario.idRole}"
+			        style="#{msj['p.selectOneMenu_width_mediano']}" >
 		            
+		            <f:selectItem itemLabel="#{msj['f.selectItem']}" itemValue="" />
+		            
+		            <f:selectItems value="#{beansRegistrarUsuario.listaRoles}"
+                    var="VSelItemsRoles"
+                    itemLabel="#{VSelItemsRoles.nombre}"
+                    itemValue="#{VSelItemsRoles.id}" />
+		        
 			        </p:selectOneMenu>
 			        </p:column>
 			        </p:row>
@@ -124,11 +130,11 @@
 			        <p:panelGrid>					
 					<p:row>
 				    <p:column>
-				    <p:commandButton value="#{msj['p.commanButton_Guardar']}" actionListener="#{beansRegistrarUsuario.registrarUsuario}" />
+				    <p:commandButton value="#{msj['p.commanButton_Guardar']}" actionListener="#{beansRegistrarUsuario.ejecutarProceso}" />
 					</p:column>
 					
 					<p:column>
-				    <p:commandButton value="#{msj['p.commanButton_Actualizar']}" actionListener="#{beansRegistrarUsuario.actualizarUsuario}"/>
+				    <p:commandButton value="#{msj['p.commanButton_Cancelar']}" actionListener="#{beansRegistrarUsuario.cancelar}"/>
 					</p:column>
 					
 					<p:column>
@@ -138,25 +144,28 @@
 					</p:row>
 					</p:panelGrid> 
 							
-				<p:dataTable var="tablausuarios" value="#{beansRegistrarUsuario.tablaUsuario}">
+				<p:dataTable var="tablausuarios" value="#{beansRegistrarUsuario.tablaUsuario}" selectionMode="single"	selection="#{beansRegistrarUsuario.usuariosElected}" rowKey="#{tablausuarios.id}" >
+				
+				<p:ajax event="rowSelect" listener="#{beansRegistrarUsuario.onRowSelect}" />
+				
                 <p:column headerText="#{msj['usuarios.nombre']}">
                 <h:outputText  value="#{tablausuarios.usuario}" />
                  </p:column>
  
                  <p:column headerText="#{msj['usuarios.rol']}">
-                 <h:outputText value="#{tablausuarios.nombre_rol}" />
+                 <h:outputText value="#{tablausuarios.empresa}" />
                  </p:column>
  
                  <p:column headerText="#{msj['usuarios.estado']}">
-                 <h:outputText value="#{tablausuarios.status_rol}"/>
+                 <h:outputText value="#{tablausuarios.correo}"/>
                  </p:column>
  
                  <p:column headerText="#{msj['usuarios.rol']}">
-                 <h:outputText value="#{tablausuarios.nombre_rol}" />
+                 <h:outputText value="#{tablausuarios.roles.nombre}" />
                  </p:column>
                  
                  <p:column headerText="#{msj['usuarios.correo']}">
-                 <h:outputText value="#{tablausuarios.correo}" />
+                 <h:outputText value="#{tablausuarios.estado}" />
                  </p:column>
                  
                  </p:dataTable>
