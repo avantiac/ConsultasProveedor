@@ -80,10 +80,8 @@ public class BeansRegistrarProyecto extends Acciones implements Serializable {
 		BdEjecucion ejecucion = new BdEjecucion();
 		try {
 			
-			Usuarios usuario = new Usuarios();
-			usuario.setId(4);
 			proyecto.setFecha_creacion(new Date());
-			proyecto.setUsuarioCreador(usuario);
+			proyecto.setUsuarioCreador(getUsuarioSessionMB().getUsuario());
 			ejecucion.createData(getProyecto());
 			setProyecto(new Proyectos());
 			cargarLista();

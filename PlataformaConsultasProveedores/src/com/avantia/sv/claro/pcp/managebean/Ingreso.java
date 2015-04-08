@@ -2,6 +2,8 @@ package com.avantia.sv.claro.pcp.managebean;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -13,22 +15,20 @@ import javax.faces.context.FacesContext;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.menu.MenuModel;
 
-
+import com.avantia.sv.claro.pcp.entidades.Usuarios;
+import com.avantia.sv.claro.pcp.jdbc.BdEjecucion;
 
 @ManagedBean(name="usuarioSessionMB")
 @SessionScoped
 public class Ingreso  implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private static final String USUARIO = "admin";
-	private static final String PASSWORD = "pass";
 	private static final String URL_PAGINA_PRINCIPAL = "/vistas/generales/Principal.xhtml";
 	private String user;
 	private MenuModel model;
-
+	private Usuarios usuario;
 	
 
-	
 	@PostConstruct
 	public void inicio(){
 		
@@ -41,10 +41,25 @@ public class Ingreso  implements Serializable {
 	 *            - Contrasenia del usuario
 	 * */
 	public void loginUsuario(String contrasenia) {
-		if (USUARIO.equals(getUser()) && PASSWORD.equals(contrasenia))
-			redireccionarPagina(URL_PAGINA_PRINCIPAL);
-		else
-			mostrarMensajeError("Verifique los datos ingresados");
+		BdEjecucion ejecucion = new BdEjecucion();
+		
+		try{
+			@SuppressWarnings("unchecked")
+			List<Usuarios> usuarios = (ArrayList<Usuarios>) ejecucion.listData("FROM USUARIOS where clave = '" + contrasenia + "' and usuario = '" + getUser() + "'") ;
+			
+			  
+			if (!usuarios.isEmpty()){
+				setUsuario(usuarios.get(0));
+				redireccionarPagina(URL_PAGINA_PRINCIPAL);
+			}
+			else {
+				mostrarMensajeError("Verifique los datos ingresados");
+			}
+			
+		}catch(Exception exp){
+			exp.printStackTrace();
+			mostrarMensajeError("No se encontro usuario con esas credenciales");
+		}
 	}
 
 	/**
@@ -118,5 +133,25 @@ public class Ingreso  implements Serializable {
 	/**
 	 * @return the request
 	 */
+
+
+
+
+	/**
+	 * @return the usuario
+	 */
+	public Usuarios getUsuario() {
+		return usuario;
+	}
+
+
+
+
+	/**
+	 * @param usuario the usuario to set
+	 */
+	public void setUsuario(Usuarios usuario) {
+		this.usuario = usuario;
+	}
 
 }

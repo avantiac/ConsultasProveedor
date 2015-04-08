@@ -29,7 +29,7 @@
 			        </p:column>
 			        
 			        <p:column>
-			        <p:password value="#{beansRegistrarUsuario.usuarios.clave}"/>
+			        <p:password value="#{beansRegistrarUsuario.clave1}"/>
 			        </p:column>
 			        </p:row>
 			        
@@ -39,7 +39,7 @@
 			        </p:column>
 			        
 			        <p:column>
-			        <p:password value="#{beansRegistrarUsuario.usuarios.clave}"/>
+			        <p:password value="#{beansRegistrarUsuario.clave2}"/>
 			        </p:column>
 			        </p:row>
 			        
@@ -103,7 +103,7 @@
 			        <p:selectOneMenu id="IDSelOneMnuIdRoles" value="#{beansRegistrarUsuario.idRole}"
 			        style="#{msj['p.selectOneMenu_width_mediano']}" >
 		            
-		            <f:selectItem itemLabel="#{msj['f.selectItem']}" itemValue="" />
+		            <f:selectItem itemLabel="#{msj['f.selectItem']}" itemValue="0" />
 		            
 		            <f:selectItems value="#{beansRegistrarUsuario.listaRoles}"
                     var="VSelItemsRoles"

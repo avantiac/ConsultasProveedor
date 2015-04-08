@@ -27,6 +27,8 @@ public class BeansRegistrarUsuario extends Acciones implements Serializable {
     private ArrayList<Usuarios>tablaUsuario;
     private ArrayList<Roles>listaRoles;
     private int idRole;
+    private String clave1;
+    private String clave2;
 	
 	
 	@PostConstruct
@@ -76,14 +78,27 @@ public class BeansRegistrarUsuario extends Acciones implements Serializable {
         public void cancelar(){
   		  //setUsuarioSessionMB(new UsuarioSessionMB());
   		  usuarios.setId(0);
+  		  setIdRole(0);
+  		  
   		  RequestContext.getCurrentInstance().update("IDFrmPrincipal:IDPnlGridTab5");
   		 }
         
 
 	public void registrarUsuario(){
 		try {
-			System.out.println(getUsuarios() == null);
+
+			// validar que las dos claves vayan a coincidir
+			if(!getClave1().isEmpty() || getClave1()!=null){
+				if(!getClave1().equals(getClave2())){
+					lanzarMensajeError("Error", "Las claves no coinciden", new Exception("Las claves que metieron no coinciden por eso se les dijo que no podian guardar el usuario"));
+					return;
+				}
+			}else{
+				lanzarMensajeError("Error", "Debe ingresar la clave", new Exception("Envio la claave 1 vacia por lo tanto no dejamos que guardara el usuario"));
+				return;
+			}
 			
+			getUsuarios().setClave(getClave1());
 			Date date = new Date();
 			getUsuarios().setFecha_creacion(date);
 			Roles rol = new Roles();
@@ -138,10 +153,13 @@ public class BeansRegistrarUsuario extends Acciones implements Serializable {
 	{
 
 		setUsuariosElected(((Usuarios) event.getObject()));
-		if(getUsuariosElected()!=null)
+		if(getUsuariosElected()!=null){
 			setUsuarios(getUsuariosElected());
-		    usuarios.setClave(usuariosElected.getClave());
-		    usuarios.setUsuario(usuariosElected.getUsuario());
+		    setIdRole(getUsuarios().getRoles().getId());
+		    setClave1(getUsuarios().getClave());
+		    setClave2(getUsuarios().getClave());
+		
+		}
 		    
 		RequestContext.getCurrentInstance().update("IDFusuarios");
 			
@@ -224,5 +242,33 @@ public class BeansRegistrarUsuario extends Acciones implements Serializable {
 	 */
 	public void setUsuariosElected(Usuarios usuariosElected) {
 		this.usuariosElected = usuariosElected;
+	}
+
+	/**
+	 * @return the clave1
+	 */
+	public String getClave1() {
+		return clave1;
+	}
+
+	/**
+	 * @param clave1 the clave1 to set
+	 */
+	public void setClave1(String clave1) {
+		this.clave1 = clave1;
+	}
+
+	/**
+	 * @return the clave2
+	 */
+	public String getClave2() {
+		return clave2;
+	}
+
+	/**
+	 * @param clave2 the clave2 to set
+	 */
+	public void setClave2(String clave2) {
+		this.clave2 = clave2;
 	}
 }
