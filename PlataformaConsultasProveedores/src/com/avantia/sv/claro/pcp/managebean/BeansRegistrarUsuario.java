@@ -88,15 +88,25 @@ public class BeansRegistrarUsuario extends Acciones implements Serializable {
 		try {
 
 			// validar que las dos claves vayan a coincidir
-			if(!getClave1().isEmpty() || getClave1()!=null){
+			if(!getClave1().isEmpty() || getClave1()!=null  ){
 				if(!getClave1().equals(getClave2())){
 					lanzarMensajeError("Error", "Las claves no coinciden", new Exception("Las claves que metieron no coinciden por eso se les dijo que no podian guardar el usuario"));
 					return;
+				}else if(!getUsuarios().getUsuario().isEmpty() ){
+					
+					lanzarMensajeError("Error", "ingrese un usuario", new Exception("es necesario un usuario para continuar con el proceso"));
+					return;
+					
+				}else if(!getUsuarios().getEmpresa().isEmpty()){
+					
+					
 				}
+				
 			}else{
 				lanzarMensajeError("Error", "Debe ingresar la clave", new Exception("Envio la claave 1 vacia por lo tanto no dejamos que guardara el usuario"));
 				return;
 			}
+			
 			
 			getUsuarios().setClave(getClave1());
 			Date date = new Date();
@@ -118,6 +128,20 @@ public class BeansRegistrarUsuario extends Acciones implements Serializable {
 	}
 	
 	public void actualizarUsuario(){
+		
+		if(!getClave1().isEmpty() || getClave1()!=null  ){
+			if(!getClave1().equals(getClave2())){
+				lanzarMensajeError("Error", "Las claves no coinciden", new Exception("Las claves que metieron no coinciden por eso se les dijo que no podian guardar el usuario"));
+				return;
+			}else if(!getUsuarios().getUsuario().isEmpty() ){
+				
+				lanzarMensajeError("Error", "Seleccione de la tabla un usuario", new Exception("es necesario seleccionar una opcion de la tabla"));
+				return;
+				
+			}else if(!getUsuarios().getEmpresa().isEmpty()){
+				
+				
+			}
 		try {
 			getEjecucion().updateData(getUsuarios());
 			cargarLista();
@@ -130,9 +154,12 @@ public class BeansRegistrarUsuario extends Acciones implements Serializable {
 			setUsuarios(new Usuarios());
 			RequestContext.getCurrentInstance().update("IDFusuarios");
 		}
+		
+	}
 	}
 	
 	public void eliminarUsuario(){
+		
 		try {
 			getEjecucion().deleteData(getUsuarios());
 			cargarLista();
@@ -163,6 +190,19 @@ public class BeansRegistrarUsuario extends Acciones implements Serializable {
 		    
 		RequestContext.getCurrentInstance().update("IDFusuarios");
 			
+	}
+	
+	public String confirmarEstado(boolean estado){
+		
+		if(estado){
+			
+			return "Activo";
+		}else{
+			
+			return "Inactivo";
+			
+		}
+		
 	}
 	
 

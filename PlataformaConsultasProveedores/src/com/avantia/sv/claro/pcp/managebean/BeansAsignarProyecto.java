@@ -110,6 +110,15 @@ public class BeansAsignarProyecto extends Acciones implements Serializable {
 	
 	public void asignarProyecto(){
 	
+		if(!getAsignarproyecto().getUsuario().getUsuario().isEmpty()){
+			
+			lanzarMensajeError("Error", "Tiene que seleccionar un usuario", new Exception("Es obligatorio que el usuario sea seleccionado"));
+			return;
+		}else if(!getAsignarproyecto().getProyecto().getNombre().isEmpty()){
+			
+			lanzarMensajeError("Error", "Tiene que seleccionar un proyecto", new Exception("Es obligatorio que el proyecto sea seleccionado"));
+			return;
+		}
 		
 		BdEjecucion ejecucion = new BdEjecucion();
 		try {
@@ -136,6 +145,12 @@ public class BeansAsignarProyecto extends Acciones implements Serializable {
 	}
 	
 	public void actualizarAsignacionProyecto(){
+		
+       if(!getAsignarproyecto().getProyecto().getNombre().isEmpty() || !getAsignarproyecto().getUsuario().getUsuario().isEmpty()){
+			
+			lanzarMensajeError("Error", "Tiene que seleccionar una una opcion de la tabla", new Exception("Es obligatorio que seleccione una opcion de la tabla"));
+			return;
+		}
 	
 		BdEjecucion ejecucion = new BdEjecucion();
 		try {

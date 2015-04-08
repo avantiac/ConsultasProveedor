@@ -67,7 +67,14 @@ public class BeansRegistrarRoles extends Acciones implements Serializable {
 
 	public void registrarRoles() {
 
+		if(!getRoles().getNombre().isEmpty()  ){
+	
+				lanzarMensajeError("Error", "El nombre del rol tiene que ser ingresado", new Exception("El nombre del rol tiene que ser ingresado"));
+				return;
 			
+				
+			}	
+		
 				
 			BdEjecucion ejecucion = new BdEjecucion();
 			try {
@@ -89,6 +96,15 @@ public class BeansRegistrarRoles extends Acciones implements Serializable {
 	}
 
 	public void actualizarRoles() {
+		
+		if(!getRoles().getNombre().isEmpty()  ){
+			
+			lanzarMensajeError("Error", "Tiene que seleccionar una opcion de la tabla", new Exception("Para poder actualizar tiene que seleccionar una opcion de la tabla"));
+			return;
+		
+			
+		}	
+		
 		BdEjecucion ejecucion = new BdEjecucion();
 		try {
 			ejecucion.updateData(getRoles());
@@ -105,6 +121,9 @@ public class BeansRegistrarRoles extends Acciones implements Serializable {
 	}
 
 	public void eliminarRoles() {
+		
+		
+		
 		BdEjecucion ejecucion = new BdEjecucion();
 		try {
 			ejecucion.deleteData(getRoles());

@@ -122,7 +122,7 @@
 
 			        <p:column>
                     
-                    <p:selectBooleanCheckbox />
+                    <p:selectBooleanCheckbox value="#{beansRegistrarUsuario.usuarios.estado}"/>
                     
 			        </p:column>
 			        </p:row>
@@ -152,11 +152,11 @@
                 <h:outputText  value="#{tablausuarios.usuario}" />
                  </p:column>
  
-                 <p:column headerText="#{msj['usuarios.rol']}">
+                 <p:column headerText="#{msj['usuarios.empresa']}">
                  <h:outputText value="#{tablausuarios.empresa}" />
                  </p:column>
  
-                 <p:column headerText="#{msj['usuarios.estado']}">
+                 <p:column headerText="#{msj['usuarios.correo']}">
                  <h:outputText value="#{tablausuarios.correo}"/>
                  </p:column>
  
@@ -164,14 +164,12 @@
                  <h:outputText value="#{tablausuarios.roles.nombre}" />
                  </p:column>
                  
-                 <p:column headerText="#{msj['usuarios.correo']}">
-                 <h:outputText value="#{tablausuarios.estado}" />
+                 <p:column headerText="#{msj['usuarios.estado']}">
+                 <h:outputText value="#{beansRegistrarUsuario.confirmarEstado(tablausuarios.estado)}" />
                  </p:column>
                  
                  </p:dataTable>
-					
-					
-					
+						
 						
 				</center>
 			</h:form>
