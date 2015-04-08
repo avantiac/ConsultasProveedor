@@ -130,15 +130,15 @@ public class BeansRegistrarUsuario extends Acciones implements Serializable {
 	public void actualizarUsuario(){
 		
 		if(!getClave1().isEmpty() || getClave1()!=null  ){
-			if(!getClave1().equals(getClave2())){
+			if(!getUsuariosElected().equals(getClave2())){
 				lanzarMensajeError("Error", "Las claves no coinciden", new Exception("Las claves que metieron no coinciden por eso se les dijo que no podian guardar el usuario"));
 				return;
-			}else if(!getUsuarios().getUsuario().isEmpty() ){
+			}else if(!getUsuariosElected().getUsuario().isEmpty() ){
 				
 				lanzarMensajeError("Error", "Seleccione de la tabla un usuario", new Exception("es necesario seleccionar una opcion de la tabla"));
 				return;
 				
-			}else if(!getUsuarios().getEmpresa().isEmpty()){
+			}else if(!getUsuariosElected().getEmpresa().isEmpty()){
 				
 				
 			}
@@ -183,8 +183,8 @@ public class BeansRegistrarUsuario extends Acciones implements Serializable {
 		if(getUsuariosElected()!=null){
 			setUsuarios(getUsuariosElected());
 		    setIdRole(getUsuarios().getRoles().getId());
-		    setClave1(getUsuarios().getClave());
-		    setClave2(getUsuarios().getClave());
+		    setClave1(getUsuariosElected().getClave());
+		    setClave2(getUsuariosElected().getClave());
 		
 		}
 		    
@@ -192,9 +192,9 @@ public class BeansRegistrarUsuario extends Acciones implements Serializable {
 			
 	}
 	
-	public String confirmarEstado(boolean estado){
+	public String confirmarEstado(String estado){
 		
-		if(estado){
+		if(estado=="true"){
 			
 			return "Activo";
 		}else{
