@@ -201,15 +201,7 @@ public class BeansAsignarProyecto extends Acciones implements Serializable {
 				
 	}
 	
-	private void mostrarMensajeError(String msg) {
-		RequestContext requestContext = RequestContext.getCurrentInstance();
-		FacesContext context = FacesContext.getCurrentInstance();
-		context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-				"", msg));
-		if (requestContext != null) {
-			requestContext.update("IDGrowlErrorSistemas");
-		}
-	}
+
 
 	/**
 	 * @return the asignarproyecto

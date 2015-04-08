@@ -88,7 +88,7 @@ public class BeansRegistrarUsuario extends Acciones implements Serializable {
 		try {
 
 			// validar que las dos claves vayan a coincidir
-			if(!getClave1().isEmpty() || getClave1()!=null  ){
+			if(!getClave1().isEmpty() || !getClave1().isEmpty()  ){
 				if(!getClave1().equals(getClave2())){
 					lanzarMensajeError("Error", "Las claves no coinciden", new Exception("Las claves que metieron no coinciden por eso se les dijo que no podian guardar el usuario"));
 					return;
@@ -185,7 +185,7 @@ public class BeansRegistrarUsuario extends Acciones implements Serializable {
 		    setIdRole(getUsuarios().getRoles().getId());
 		    setClave1(getUsuariosElected().getClave());
 		    setClave2(getUsuariosElected().getClave());
-		
+		   
 		}
 		    
 		RequestContext.getCurrentInstance().update("IDFusuarios");
