@@ -77,36 +77,45 @@ public class BeansRegistrarUsuario extends Acciones implements Serializable {
         
         public void cancelar(){
   		  //setUsuarioSessionMB(new UsuarioSessionMB());
-  		  usuarios.setId(0);
-  		  setIdRole(0);
+  		 /* usuarios.setId(0);
+  		  setIdRole(0);*/
   		  
-  		  RequestContext.getCurrentInstance().update("IDFrmPrincipal:IDPnlGridTab5");
+          new Usuarios();	
+  		  RequestContext.getCurrentInstance().update("IDFusuarios:PGusuarios");
   		 }
         
 
+    private boolean validar(){
+    	// validar que las dos claves vayan a coincidir
+		if(!getClave1().isEmpty() || !getClave2().isEmpty()  ){
+			if(!getClave1().equals(getClave2())){
+				lanzarMensajeError("Error", "Las claves no coinciden", new Exception("Las claves que metieron no coinciden por eso se les dijo que no podian guardar el usuario"));
+				return true;
+			}
+			
+			if(getUsuarios().getUsuario().isEmpty() ){
+				lanzarMensajeError("Error", "ingrese un usuario", new Exception("es necesario un usuario para continuar con el proceso"));
+				return true;	
+			}
+			
+			if(getUsuarios().getEmpresa().isEmpty()){
+				
+				return true;
+			}
+			
+		}else{
+			lanzarMensajeError("Error", "Debe ingresar la clave", new Exception("Envio la claave 1 vacia por lo tanto no dejamos que guardara el usuario"));
+			return true;
+		}
+		
+		return false;
+    }
+    
 	public void registrarUsuario(){
 		try {
 
-			// validar que las dos claves vayan a coincidir
-			if(!getClave1().isEmpty() || !getClave1().isEmpty()  ){
-				if(!getClave1().equals(getClave2())){
-					lanzarMensajeError("Error", "Las claves no coinciden", new Exception("Las claves que metieron no coinciden por eso se les dijo que no podian guardar el usuario"));
-					return;
-				}else if(!getUsuarios().getUsuario().isEmpty() ){
-					
-					lanzarMensajeError("Error", "ingrese un usuario", new Exception("es necesario un usuario para continuar con el proceso"));
-					return;
-					
-				}else if(!getUsuarios().getEmpresa().isEmpty()){
-					
-					
-				}
-				
-			}else{
-				lanzarMensajeError("Error", "Debe ingresar la clave", new Exception("Envio la claave 1 vacia por lo tanto no dejamos que guardara el usuario"));
+			if(validar())
 				return;
-			}
-			
 			
 			getUsuarios().setClave(getClave1());
 			Date date = new Date();
@@ -127,21 +136,13 @@ public class BeansRegistrarUsuario extends Acciones implements Serializable {
 		}
 	}
 	
+
+	
 	public void actualizarUsuario(){
 		
-		if(!getClave1().isEmpty() || getClave1()!=null  ){
-			if(!getUsuariosElected().equals(getClave2())){
-				lanzarMensajeError("Error", "Las claves no coinciden", new Exception("Las claves que metieron no coinciden por eso se les dijo que no podian guardar el usuario"));
-				return;
-			}else if(!getUsuariosElected().getUsuario().isEmpty() ){
-				
-				lanzarMensajeError("Error", "Seleccione de la tabla un usuario", new Exception("es necesario seleccionar una opcion de la tabla"));
-				return;
-				
-			}else if(!getUsuariosElected().getEmpresa().isEmpty()){
-				
-				
-			}
+		if(validar())
+			return ;
+		
 		try {
 			getEjecucion().updateData(getUsuarios());
 			cargarLista();
@@ -156,9 +157,11 @@ public class BeansRegistrarUsuario extends Acciones implements Serializable {
 		}
 		
 	}
-	}
+
 	
 	public void eliminarUsuario(){
+		if(validar())
+			return ;
 		
 		try {
 			getEjecucion().deleteData(getUsuarios());
@@ -183,8 +186,8 @@ public class BeansRegistrarUsuario extends Acciones implements Serializable {
 		if(getUsuariosElected()!=null){
 			setUsuarios(getUsuariosElected());
 		    setIdRole(getUsuarios().getRoles().getId());
-		    setClave1(getUsuariosElected().getClave());
-		    setClave2(getUsuariosElected().getClave());
+		    setClave1(getUsuarios().getClave());
+		    setClave2(getUsuarios().getClave());
 		   
 		}
 		    

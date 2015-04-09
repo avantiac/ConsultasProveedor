@@ -11,24 +11,14 @@
 				<center>
 				
 					<p:panelGrid>
-					<p:row>
-					<p:column>
-					<p:outputLabel value="#{msj['p.token.user']}"/>
-					</p:column>
-	
-				
-					<p:column>
-					<p:inputText  value="#{beansCamviarClave.usuarios.usuario}"  />
-					</p:column>
-					</p:row>
-					
+						
 					<p:row>
 					<p:column>
 					<p:outputLabel value="#{msj['p.token.key']}"/>
 					</p:column>				
 			
 					<p:column>
-					<p:password  value="#{beansCamviarClave.usuarios.clave}" />
+					<p:password  value="#{beansCamviarClave.clave1}" />
 					</p:column>
 					</p:row>
 					
@@ -38,7 +28,7 @@
 					</p:column>				
 			
 					<p:column>
-					<p:password  value="#{beansCamviarClave.usuarios.clave}"  />
+					<p:password  value="#{beansCamviarClave.clave2}"  />
 					</p:column>
 					</p:row>
 					

@@ -74,16 +74,23 @@ public class BeansRegistrarProyecto extends Acciones implements Serializable {
  		  RequestContext.getCurrentInstance().update("IDFrmPrincipal:IDPnlGridTab5");
  		 }
        
+		public boolean validar(){
+			
+			 if(getProyecto().getNombre().isEmpty()  ){
+					
+					lanzarMensajeError("Error", "El nombre del proyecto es obligatorio", new Exception("Tiene que ingresar un nombre"));
+					return true;
+				
+				}else{
+					return false;
+					
+				}
+		}
 	
 	public void registrarProyecto(){
 		
-		if(!getProyecto().getNombre().isEmpty()  ){
-			
-			lanzarMensajeError("Error", "El nombre del proyecto tiene que ser ingresado", new Exception("El nombre del proyecto es obligatorio"));
+		if(validar())
 			return;
-		
-			
-		}	
 		
 		BdEjecucion ejecucion = new BdEjecucion();
 		try {
@@ -103,16 +110,11 @@ public class BeansRegistrarProyecto extends Acciones implements Serializable {
 		}
 		
 	}
-	
+		
 	public void actualizarProyecto(){
 		
-		 if(!getProyecto().getNombre().isEmpty()  ){
-				
-				lanzarMensajeError("Error", "Tiene que seleccionar una opcion de la tabla", new Exception("Tiene que seleccionar una opcion de la tabla"));
-				return;
-			
-				
-			}
+		if(validar())
+			return;
 		
 		BdEjecucion ejecucion = new BdEjecucion();
 		try {
@@ -133,13 +135,8 @@ public class BeansRegistrarProyecto extends Acciones implements Serializable {
 	
 	public void eliminarProyecto(){
 		
-        if(!getProyecto().getNombre().isEmpty()  ){
-			
-			lanzarMensajeError("Error", "Tiene que seleccionar una opcion de la tabla", new Exception("Tiene que seleccionar una opcion de la tabla"));
+		if(validar())
 			return;
-		
-			
-		}	
 		
 		BdEjecucion ejecucion = new BdEjecucion();
 		try {
