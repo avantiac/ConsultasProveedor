@@ -46,68 +46,68 @@ public class BeansRegistrarRoles extends Acciones implements Serializable {
 			ejecucion = null;
 		}
 	}
-	
-	public void ejecutarProceso(){
-		
-		if(getRoles().getId()==0){
-			
+
+	public void ejecutarProceso() {
+
+		if (getRoles().getId() == 0) {
+
 			registrarRoles();
-		}else{
-			
+		} else {
+
 			actualizarRoles();
 		}
-		
+
 	}
-	
-	 public void cancelar(){
-		  //setUsuarioSessionMB(new UsuarioSessionMB());
-		  roles.setId(0);
-		  RequestContext.getCurrentInstance().update("IDFrmPrincipal:IDPnlGridTab5");
-		 }
+
+	public void cancelar() {
+
+		setRoles(new Roles());
+		RequestContext.getCurrentInstance().update("IDFroles");
+	}
+
+	public boolean validar() {
+
+		if (getRoles().getNombre().isEmpty()) {
+
+			lanzarMensajeError("Error",
+					"El nombre del rol tiene que ser ingresado", new Exception(
+							"El nombre del rol tiene que ser ingresado"));
+			return true;
+
+		} else {
+
+			return false;
+		}
+	}
 
 	public void registrarRoles() {
 
-		if(!getRoles().getNombre().isEmpty()  ){
-	
-				lanzarMensajeError("Error", "El nombre del rol tiene que ser ingresado", new Exception("El nombre del rol tiene que ser ingresado"));
-				return;
-			
-				
-			}	
-		
-				
-			BdEjecucion ejecucion = new BdEjecucion();
-			try {
-					
-					ejecucion.createData(getRoles());
-					setRoles(new Roles());
-					cargarLista();
-					
-				RequestContext.getCurrentInstance().update("IDFroles");
-			} catch (Exception e) {
-				// TODO: se debe mandar un mensaje a la pantalla diciendo que
-				// existio un error al guardar
-				e.printStackTrace();
-			} finally {
-				ejecucion = null;		
-		
-       }
-	
+		if (validar())
+			return;
+
+		try {
+
+			getRoles().setNombre(getRoles().getNombre().toUpperCase());
+			getEjecucion().createData(getRoles());
+			setRoles(new Roles());
+			cargarLista();
+
+			RequestContext.getCurrentInstance().update("IDFroles");
+		} catch (Exception e) {
+			// TODO: se debe mandar un mensaje a la pantalla diciendo que
+			// existio un error al guardar
+			e.printStackTrace();
+		}
+
 	}
 
 	public void actualizarRoles() {
-		
-		if(!getRoles().getNombre().isEmpty()  ){
-			
-			lanzarMensajeError("Error", "Tiene que seleccionar una opcion de la tabla", new Exception("Para poder actualizar tiene que seleccionar una opcion de la tabla"));
+		if (validar())
 			return;
-		
-			
-		}	
-		
-		BdEjecucion ejecucion = new BdEjecucion();
+
 		try {
-			ejecucion.updateData(getRoles());
+			getRoles().setNombre(getRoles().getNombre().toUpperCase());
+			getEjecucion().updateData(getRoles());
 			setRoles(new Roles());
 			cargarLista();
 			RequestContext.getCurrentInstance().update("IDFroles");
@@ -115,17 +115,17 @@ public class BeansRegistrarRoles extends Acciones implements Serializable {
 			// TODO: se debe mandar un mensaje a la pantalla diciendo que
 			// existio un error al guardar
 			e.printStackTrace();
-		} finally {
-			ejecucion = null;
-		}
+		} 
 	}
 
 	public void eliminarRoles() {
-		
-		
-		
+
+		if (validar())
+			return;
+
 		BdEjecucion ejecucion = new BdEjecucion();
 		try {
+
 			ejecucion.deleteData(getRoles());
 			setRoles(new Roles());
 			cargarLista();
@@ -133,30 +133,32 @@ public class BeansRegistrarRoles extends Acciones implements Serializable {
 		} catch (Exception e) {
 			// TODO: se debe mandar un mensaje a la pantalla diciendo que
 			// existio un error al guardar
-			e.printStackTrace();
+			lanzarMensajeError(
+					"Error",
+					"Error verifiquie que el rol no tenga asignado un usuario para poder eliminarlo",
+					new Exception("Error rol no fue eliminado"));
+
 		} finally {
 			ejecucion = null;
+
 		}
 	}
-	
-	
-	public void onRowSelect(SelectEvent event) 
-	{
+
+	public void onRowSelect(SelectEvent event) {
 		setSelectRoles(((Roles) event.getObject()));
-		if(getSelectRoles()!=null)
+		if (getSelectRoles() != null)
 			setRoles(getSelectRoles());
 		RequestContext.getCurrentInstance().update("IDFroles");
-		
+
 	}
-	
-	public String textoDeEstado(String in)
-	{
+
+	public String textoDeEstado(String in) {
 		System.out.println(in);
-		if(in.equals("true")){
+		if (in.equals("true")) {
 			return "Activo";
-		}else if(in.equals("false")){
+		} else if (in.equals("false")) {
 			return "Inactivo";
-		}else{
+		} else {
 			return "basura";
 		}
 	}
@@ -199,9 +201,11 @@ public class BeansRegistrarRoles extends Acciones implements Serializable {
 	}
 
 	/**
-	 * @param selectRoles the selectRoles to set
+	 * @param selectRoles
+	 *            the selectRoles to set
 	 */
 	public void setSelectRoles(Roles selectRoles) {
 		this.selectRoles = selectRoles;
 	}
+
 }

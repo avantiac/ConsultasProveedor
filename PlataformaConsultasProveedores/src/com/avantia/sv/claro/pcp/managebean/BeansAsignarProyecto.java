@@ -107,18 +107,30 @@ public class BeansAsignarProyecto extends Acciones implements Serializable {
  		  asignarproyecto.setId(0);
  		  RequestContext.getCurrentInstance().update("IDFrmPrincipal:IDPnlGridTab5");
  		 }
+	 
+	 public boolean validar(){
+		 
+		 if(getIdUsuario()==0){
+				
+				lanzarMensajeError("Error", "Tiene que seleccionar un usuario", new Exception("Es obligatorio que el usuario sea seleccionado"));
+				return true;
+			}
+		 
+		    
+		    if(getIdProyecto()==0){
+				
+				lanzarMensajeError("Error", "Tiene que seleccionar un proyecto", new Exception("Es obligatorio que el proyecto sea seleccionado"));
+				return true;
+			}else {
+				
+				return false;
+			}
+	 }
 	
 	public void asignarProyecto(){
 	
-		if(!getAsignarproyecto().getUsuario().getUsuario().isEmpty()){
-			
-			lanzarMensajeError("Error", "Tiene que seleccionar un usuario", new Exception("Es obligatorio que el usuario sea seleccionado"));
+		if(validar())
 			return;
-		}else if(!getAsignarproyecto().getProyecto().getNombre().isEmpty()){
-			
-			lanzarMensajeError("Error", "Tiene que seleccionar un proyecto", new Exception("Es obligatorio que el proyecto sea seleccionado"));
-			return;
-		}
 		
 		BdEjecucion ejecucion = new BdEjecucion();
 		try {
@@ -126,8 +138,10 @@ public class BeansAsignarProyecto extends Acciones implements Serializable {
 			asignarproyecto.setFecha_cracion(new Date());
 			Usuarios usuario = new Usuarios();
 			usuario.setId(idUsuario);
+		    System.out.println("Hola soy el id de usuario"+idUsuario);
 			Proyectos proyecto = new Proyectos();
-			proyecto.setId(getIdProyecto());
+			proyecto.setId(idProyecto);
+			System.out.println("Hola soy el id del proyecto"+idUsuario);
 			getAsignarproyecto().setUsuario(usuario);
 			getAsignarproyecto().setProyecto(proyecto);
 			ejecucion.createData(getAsignarproyecto());
@@ -145,13 +159,9 @@ public class BeansAsignarProyecto extends Acciones implements Serializable {
 	}
 	
 	public void actualizarAsignacionProyecto(){
-		
-       if(!getAsignarproyecto().getProyecto().getNombre().isEmpty() || !getAsignarproyecto().getUsuario().getUsuario().isEmpty()){
-			
-			lanzarMensajeError("Error", "Tiene que seleccionar una una opcion de la tabla", new Exception("Es obligatorio que seleccione una opcion de la tabla"));
+		if(validar())
 			return;
-		}
-	
+		
 		BdEjecucion ejecucion = new BdEjecucion();
 		try {
 			ejecucion.updateData(getAsignarproyecto());
@@ -172,7 +182,8 @@ public class BeansAsignarProyecto extends Acciones implements Serializable {
 	
 	public void eliminarAsignacionProyecto(){
 		
-		
+		if(validar())
+			return;
 		
 		BdEjecucion ejecucion = new BdEjecucion();
 		try {
@@ -197,19 +208,13 @@ public class BeansAsignarProyecto extends Acciones implements Serializable {
 		setSelectAsignar(((Asignar_Proyecto) event.getObject()));
 		if(getSelectAsignar()!=null)
 			setAsignarproyecto(getSelectAsignar());
+		    setIdUsuario(getAsignarproyecto().getUsuario().getId());
+		    setIdProyecto(getAsignarproyecto().getProyecto().getId());
 		RequestContext.getCurrentInstance().update("IDFasignarproyecto");
 				
 	}
 	
-	private void mostrarMensajeError(String msg) {
-		RequestContext requestContext = RequestContext.getCurrentInstance();
-		FacesContext context = FacesContext.getCurrentInstance();
-		context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-				"", msg));
-		if (requestContext != null) {
-			requestContext.update("IDGrowlErrorSistemas");
-		}
-	}
+
 
 	/**
 	 * @return the asignarproyecto

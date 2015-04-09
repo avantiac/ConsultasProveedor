@@ -10,7 +10,7 @@
 			<h:form id="IDFusuarios">
 				<center>
 				
-				<p:panelGrid >
+				<p:panelGrid id="PGusuarios" >
 			       
 			        <p:row>
 			        <p:column>
@@ -165,7 +165,7 @@
                  </p:column>
                  
                  <p:column headerText="#{msj['usuarios.estado']}">
-                 <h:outputText value="#{beansRegistrarUsuario.confirmarEstado(tablaUsuario.estado)}" />
+                 <h:outputText value="#{beansRegistrarUsuario.confirmarEstado(tablausuarios.estado)}" />
                  </p:column>
                  
                  </p:dataTable>
