@@ -58,15 +58,24 @@ public class BeansCamviarClave extends Acciones  implements Serializable{
 			clave.setClave(getClave1());
 			getEjecucion().updateData(clave);
 			RequestContext.getCurrentInstance().update("IDFcamviarclave");
+			lanzarMensajeError("Error", "La clave se cambio correctamente",
+					new Exception("La clave se cambio correctamente"));
 		} catch (Exception e) 
 		{
-			lanzarMensajeError("Error", "No se puede actualiza en este momento", e);
+			lanzarMensajeError("Error", "No se puede actualizar en este momento", e);
 		} finally
 		{
 			clave = null;
 		}
 	}
-						
+		
+	public void cancelar(){
+		
+		setClave2("");
+		setClave1("");
+		RequestContext.getCurrentInstance().update("IDFcamviarclave");
+	}
+	
 	/**
 	 * @return the clave1
 	 */

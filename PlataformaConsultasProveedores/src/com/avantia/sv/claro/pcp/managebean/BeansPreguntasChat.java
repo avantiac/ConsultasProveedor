@@ -38,42 +38,39 @@ public class BeansPreguntasChat extends Acciones implements Serializable {
 		
 		setPreguntas(new Preguntas());
 		litaPreguntas = new ArrayList<Preguntas>();
-		//cargarLista();
+		cargarLista();
 	}
 	
 	@SuppressWarnings("unchecked")
 	private void cargarLista() {
 		
-		BdEjecucion ejecucion = new BdEjecucion();
+		
 		try {
-			setLitaPreguntas((ArrayList<Preguntas>) ejecucion.listData("FROM PREGUNTAS"));
+			setLitaPreguntas((ArrayList<Preguntas>) getEjecucion().listData("FROM PREGUNTAS"));
 		} catch (Exception e) {
-			// TODO: se debe mandar un mensaje a la pantalla diciendo que
-			// existio un error al enlistar
-			e.printStackTrace();
-		} finally {
-			ejecucion = null;
-		}
+			lanzarMensajeError("Error", "La lista de preguntas no pudo ser cargada", 
+					new Exception("La lista de preguntas no pudo ser cargada"));
+		} 
 	}
 	
 	public void realizarPregunta(){
 		
-		BdEjecucion ejecucion = new BdEjecucion();
+		
 		try {
 			Asignar_Proyecto idasig = new Asignar_Proyecto();
 			idasig.setId(14);
 			preguntas.setAsignacion(idasig);
 			preguntas.setFecha_creacion(new Date());
-			ejecucion.createData(getPreguntas());
+			getEjecucion().createData(getPreguntas());
 			setPreguntas(new Preguntas());
 			cargarLista();
 			RequestContext.getCurrentInstance().update("IDFpreguntar");
 		} catch (Exception e) {
-			// TODO: se debe mandar un mensaje a la pantalla diciendo que
-			// existio un error al guardar
-			e.printStackTrace();
+			lanzarMensajeError("Error", "No se registro la pregunta", 
+					new Exception("No se registro la pregunta"));
 		} finally {
-			ejecucion = null;
+			setPreguntas(new Preguntas());
+			RequestContext.getCurrentInstance().update("IDFpreguntar");
 		}
 		
 	}

@@ -35,15 +35,14 @@ public class BeansRegistrarRoles extends Acciones implements Serializable {
 
 	@SuppressWarnings("unchecked")
 	private void cargarLista() {
-		BdEjecucion ejecucion = new BdEjecucion();
+
 		try {
-			setTablaroles((ArrayList<Roles>) ejecucion.listData("FROM ROLES"));
+			setTablaroles((ArrayList<Roles>) getEjecucion().listData("FROM ROLES"));
 		} catch (Exception e) {
-			// TODO: se debe mandar un mensaje a la pantalla diciendo que
-			// existio un error al enlistar
-			e.printStackTrace();
-		} finally {
-			ejecucion = null;
+			
+			lanzarMensajeError("Error",
+					"El nombre del rol tiene que ser ingresado", new Exception(
+							"Error la tabla de roles no se logro cargar"));
 		}
 	}
 
@@ -112,9 +111,11 @@ public class BeansRegistrarRoles extends Acciones implements Serializable {
 			cargarLista();
 			RequestContext.getCurrentInstance().update("IDFroles");
 		} catch (Exception e) {
-			// TODO: se debe mandar un mensaje a la pantalla diciendo que
-			// existio un error al guardar
-			e.printStackTrace();
+
+			lanzarMensajeError(
+					"Error",
+					"Error Rol no pudo ser actualizado",
+					new Exception("Error rol no fue actualizado"));
 		} 
 	}
 
@@ -122,24 +123,18 @@ public class BeansRegistrarRoles extends Acciones implements Serializable {
 
 		if (validar())
 			return;
-
-		BdEjecucion ejecucion = new BdEjecucion();
 		try {
 
-			ejecucion.deleteData(getRoles());
+			getEjecucion().deleteData(getRoles());
 			setRoles(new Roles());
 			cargarLista();
 			RequestContext.getCurrentInstance().update("IDFroles");
 		} catch (Exception e) {
-			// TODO: se debe mandar un mensaje a la pantalla diciendo que
-			// existio un error al guardar
+			
 			lanzarMensajeError(
 					"Error",
 					"Error verifiquie que el rol no tenga asignado un usuario para poder eliminarlo",
 					new Exception("Error rol no fue eliminado"));
-
-		} finally {
-			ejecucion = null;
 
 		}
 	}

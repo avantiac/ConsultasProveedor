@@ -51,18 +51,15 @@ public class BeansRespuestaChat extends Acciones implements Serializable {
 		try {
 			setListaresp((ArrayList<Respuestas>) ejecucion.listData("FROM RESPUESTAS"));
 		} catch (Exception e) {
-			// TODO: se debe mandar un mensaje a la pantalla diciendo que
-			// existio un error al enlistar
-			e.printStackTrace();
-		} finally {
-			ejecucion = null;
-		}
+			lanzarMensajeError("Error", "La lista de respuestas no pudo ser cargada", 
+					new Exception("La lista de respuestas no pudo ser cargada"));
+		} 
 	}
 	
 	
      public void responderChat(){
     	 
-    	BdEjecucion ejecucion = new BdEjecucion();
+    	
  		try {
  			
  			Preguntas pregunta = new Preguntas();
@@ -74,16 +71,16 @@ public class BeansRespuestaChat extends Acciones implements Serializable {
  			respuestas.setPregunta(pregunta);
  			respuestas.setFecha_creacion(new Date());
  			
- 			ejecucion.createData(getRespuestas());
+ 			getEjecucion().createData(getRespuestas());
  			setRespuestas(new Respuestas());
  			cargarLista();
  			RequestContext.getCurrentInstance().update("IDFrespuestas");
  		} catch (Exception e) {
- 			// TODO: se debe mandar un mensaje a la pantalla diciendo que
- 			// existio un error al guardar
- 			e.printStackTrace();
+ 			lanzarMensajeError("Error", "La pregunta no se logro registrar", 
+					new Exception("La pregunta no se logro registrar"));
  		} finally {
- 			ejecucion = null;
+ 			setRespuestas(new Respuestas());
+ 			RequestContext.getCurrentInstance().update("IDFrespuestas");
  		}
     	 
     	 

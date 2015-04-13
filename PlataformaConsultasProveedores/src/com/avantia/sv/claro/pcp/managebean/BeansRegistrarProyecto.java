@@ -42,15 +42,12 @@ public class BeansRegistrarProyecto extends Acciones implements Serializable {
 	
 	@SuppressWarnings("unchecked")
 	private void cargarLista() {
-		BdEjecucion ejecucion = new BdEjecucion();
 		try {
-			setListarProyecto((ArrayList<Proyectos>) ejecucion.listData("FROM PROYECTOS"));
+			setListarProyecto((ArrayList<Proyectos>) getEjecucion().listData("FROM PROYECTOS"));
 		} catch (Exception e) {
-			// TODO: se debe mandar un mensaje a la pantalla diciendo que
-			// existio un error al enlistar
-			e.printStackTrace();
-		} finally {
-			ejecucion = null;
+			
+			lanzarMensajeError("Error", "La lista proyectos no pudo ser cargada",
+					new Exception("La lista proyectos no pudo ser cargada"));
 		}
 	}
 
@@ -69,16 +66,17 @@ public class BeansRegistrarProyecto extends Acciones implements Serializable {
 	   }
 	 
 	 public void cancelar(){
- 		  //setUsuarioSessionMB(new UsuarioSessionMB());
- 		  proyecto.setId(0);
- 		  RequestContext.getCurrentInstance().update("IDFrmPrincipal:IDPnlGridTab5");
+ 		 setProyecto(new Proyectos());
+ 		 RequestContext.getCurrentInstance().update("IDFProyectos");
+ 		 
  		 }
        
 		public boolean validar(){
 			
 			 if(getProyecto().getNombre().isEmpty()  ){
 					
-					lanzarMensajeError("Error", "El nombre del proyecto es obligatorio", new Exception("Tiene que ingresar un nombre"));
+					lanzarMensajeError("Error", "El nombre del proyecto es obligatorio",
+							new Exception("Tiene que ingresar un nombre"));
 					return true;
 				
 				}else{
@@ -91,22 +89,21 @@ public class BeansRegistrarProyecto extends Acciones implements Serializable {
 		
 		if(validar())
 			return;
-		
-		BdEjecucion ejecucion = new BdEjecucion();
 		try {
 			
 			proyecto.setFecha_creacion(new Date());
 			proyecto.setUsuarioCreador(getUsuarioSessionMB().getUsuario());
-			ejecucion.createData(getProyecto());
+			getProyecto().setNombre(getProyecto().getNombre().toUpperCase());
+			getEjecucion().createData(getProyecto());
 			setProyecto(new Proyectos());
 			cargarLista();
 			RequestContext.getCurrentInstance().update("IDFProyectos");
 		} catch (Exception e) {
-			// TODO: se debe mandar un mensaje a la pantalla diciendo que
-			// existio un error al guardar
-			e.printStackTrace();
+			lanzarMensajeError("Error", "El proyecto no fue registrado",
+					new Exception("El proyecto no fue registrado"));
 		} finally {
-			ejecucion = null;
+			setProyecto(new Proyectos());
+			RequestContext.getCurrentInstance().update("IDFProyectos");
 		}
 		
 	}
@@ -116,18 +113,18 @@ public class BeansRegistrarProyecto extends Acciones implements Serializable {
 		if(validar())
 			return;
 		
-		BdEjecucion ejecucion = new BdEjecucion();
 		try {
-			ejecucion.updateData(getProyecto());
+			getProyecto().setNombre(getProyecto().getNombre().toUpperCase());
+			getEjecucion().updateData(getProyecto());
 			setProyecto(new Proyectos());
 			cargarLista();
 			RequestContext.getCurrentInstance().update("IDFProyectos");
 		} catch (Exception e) {
-			// TODO: se debe mandar un mensaje a la pantalla diciendo que
-			// existio un error al guardar
-			e.printStackTrace();
+			lanzarMensajeError("Error", "El proyecto no fue actualizado",
+					new Exception("El proyecto no fue actualizado"));
 		} finally {
-			ejecucion = null;
+			setProyecto(new Proyectos());
+			RequestContext.getCurrentInstance().update("IDFProyectos");
 		}
 		
 	}
@@ -138,32 +135,23 @@ public class BeansRegistrarProyecto extends Acciones implements Serializable {
 		if(validar())
 			return;
 		
-		BdEjecucion ejecucion = new BdEjecucion();
 		try {
-			ejecucion.deleteData(getProyecto());
+			
+			getEjecucion().deleteData(getProyecto());
 			setProyecto(new Proyectos());
 			cargarLista();
 			RequestContext.getCurrentInstance().update("IDFProyectos");
 		} catch (Exception e) {
-			// TODO: se debe mandar un mensaje a la pantalla diciendo que
-			// existio un error al guardar
-			e.printStackTrace();
+			lanzarMensajeError("Error", "El proyecto no fue eliminado",
+					new Exception("El proyecto no fue eliminado"));
 		} finally {
-			ejecucion = null;
+			setProyecto(new Proyectos());
+			RequestContext.getCurrentInstance().update("IDFProyectos");
 		}
 		
 		
 	}
 	
-	private void mostrarMensajeError(String msg) {
-		RequestContext requestContext = RequestContext.getCurrentInstance();
-		FacesContext context = FacesContext.getCurrentInstance();
-		context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-				"", msg));
-		if (requestContext != null) {
-			requestContext.update("IDGrowlErrorSistemas");
-		}
-	}
 	
 	public void onRowSelect(SelectEvent event) 
 	{
@@ -173,6 +161,18 @@ public class BeansRegistrarProyecto extends Acciones implements Serializable {
 		RequestContext.getCurrentInstance().update("IDFProyectos");
 		
 			
+	}
+	
+	public String mostrarEstado(String estado){
+		
+		if(estado.equals("true")){
+			
+			return "Activo";
+		}else{
+			
+			return "Inactivo";
+		}
+		
 	}
 	
 

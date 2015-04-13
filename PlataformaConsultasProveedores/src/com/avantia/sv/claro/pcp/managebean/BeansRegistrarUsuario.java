@@ -3,6 +3,8 @@ package com.avantia.sv.claro.pcp.managebean;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -43,9 +45,10 @@ public class BeansRegistrarUsuario extends Acciones implements Serializable {
 		try {
 			setListaRoles((ArrayList<Roles>) getEjecucion().listData("FROM ROLES"));
 		} catch (Exception e) {
-			// TODO: se debe mandar un mensaje a la pantalla diciendo que
-			// existio un error al enlistar
-			e.printStackTrace();
+
+			
+			lanzarMensajeError("Error", "Lista de roles no pudo ser cargarada", 
+					new Exception("Lista de roles no pudo ser cargarada"));
 		} 
 	}
 	
@@ -54,9 +57,9 @@ public class BeansRegistrarUsuario extends Acciones implements Serializable {
 		try {
 			setTablaUsuario((ArrayList<Usuarios>) getEjecucion().listData("FROM USUARIOS"));
 		} catch (Exception e) {
-			// TODO: se debe mandar un mensaje a la pantalla diciendo que
-			// existio un error al enlistar
-			e.printStackTrace();
+
+			lanzarMensajeError("Error", "la tabla usuarios no pudo ser cargada", 
+					new Exception("la tabla usuarios no pudo ser cargada"));
 		}
 	}
 	
@@ -76,12 +79,12 @@ public class BeansRegistrarUsuario extends Acciones implements Serializable {
 	   }
         
         public void cancelar(){
-  		  //setUsuarioSessionMB(new UsuarioSessionMB());
-  		 /* usuarios.setId(0);
-  		  setIdRole(0);*/
-  		  
-          new Usuarios();	
-  		  RequestContext.getCurrentInstance().update("IDFusuarios:PGusuarios");
+  
+        	setUsuarios(new Usuarios());
+        	setIdRole(0);
+        	setClave1("");
+        	setClave2("");
+			RequestContext.getCurrentInstance().update("IDFusuarios");
   		 }
         
 
@@ -103,6 +106,10 @@ public class BeansRegistrarUsuario extends Acciones implements Serializable {
 				return true;
 			}
 			
+			
+    
+		         
+			
 		}else{
 			lanzarMensajeError("Error", "Debe ingresar la clave", new Exception("Envio la claave 1 vacia por lo tanto no dejamos que guardara el usuario"));
 			return true;
@@ -111,10 +118,84 @@ public class BeansRegistrarUsuario extends Acciones implements Serializable {
 		return false;
     }
     
+    
+    public boolean  mascaraTelefono(){
+    	
+    	if(!getUsuarios().getTelefono().isEmpty()){
+			
+			if (getUsuarios().getTelefono().matches("[0-9]*")){
+				
+				  return false;
+			}
+			
+			else{
+				 
+				 lanzarMensajeError("Error", "El numero de telefono no contiene el formato correcto", new Exception("El numero de telefono no contiene el formato correcto"));
+				 return true;
+		   }
+		
+		}else{
+			
+			return false;
+		}
+    }
+    
+    public boolean mascaraMovil(){
+    	
+    	if(!getUsuarios().getMovil().isEmpty()){
+			   
+			if (getUsuarios().getMovil().matches("[0-9]*")){
+				
+				  return false;
+			}
+			
+			 else{
+				 
+				 lanzarMensajeError("Error", "El numero del movil no contiene el formato correcto", new Exception("El numero del movil no contiene el formato correcto"));
+				  return true;
+		    }
+		}else{
+			
+			return false;
+		}
+    }
+    
+    public boolean mascaraCorreo(){
+    	
+    	if(!getUsuarios().getCorreo().isEmpty()){
+			
+    	   Pattern Plantilla = null;
+  	       Matcher Resultado = null;
+  	       Plantilla = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"+"[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+  	       Resultado = Plantilla.matcher(getUsuarios().getCorreo());
+			if (Resultado.find()){
+				
+				  return false;
+			}
+			
+			 else{
+				 
+				 lanzarMensajeError("Error", "El correo no contiene el formato correcto", 
+						 new Exception("El correo no contiene el formato correcto"));
+				  return true;
+		    }
+		
+     }else{
+    	 
+    	 return false;
+     }
+    }
+    
 	public void registrarUsuario(){
 		try {
 
 			if(validar())
+				return;
+			if(mascaraTelefono())
+				return;
+			if(mascaraMovil())
+				return;
+			if(mascaraCorreo())
 				return;
 			
 			getUsuarios().setClave(getClave1());
@@ -126,11 +207,12 @@ public class BeansRegistrarUsuario extends Acciones implements Serializable {
 			getEjecucion().createData(getUsuarios());
 			cargarLista();			
 		} catch (Exception e) {
-			// TODO: se debe mandar un mensaje a la pantalla diciendo que
-			// existio un error al guardar
-			e.printStackTrace();
+			
+			 lanzarMensajeError("Error", "El cusuario no fue creado", 
+					 new Exception("El cusuario no fue creado"));
 		} finally
 		{
+			setIdRole(0);
 			setUsuarios(new Usuarios());
 			RequestContext.getCurrentInstance().update("IDFusuarios");
 		}
@@ -140,18 +222,24 @@ public class BeansRegistrarUsuario extends Acciones implements Serializable {
 	
 	public void actualizarUsuario(){
 		
-		if(validar())
-			return ;
+		if(mascaraTelefono())
+			return;
+		if(mascaraMovil())
+			return;
+		if(mascaraCorreo())
+			return;
 		
 		try {
 			getEjecucion().updateData(getUsuarios());
 			cargarLista();
 		} catch (Exception e) {
-			// TODO: se debe mandar un mensaje a la pantalla diciendo que
-			// existio un error al guardar
-			e.printStackTrace();
+	     
+			 lanzarMensajeError("Error", "El cusuario no fue actualizado", 
+					 new Exception("El cusuario no fue actualizado"));
+			
 		} finally
 		{
+			setIdRole(0);
 			setUsuarios(new Usuarios());
 			RequestContext.getCurrentInstance().update("IDFusuarios");
 		}
@@ -160,19 +248,19 @@ public class BeansRegistrarUsuario extends Acciones implements Serializable {
 
 	
 	public void eliminarUsuario(){
-		if(validar())
-			return ;
+
+		//en este el mensaje sera el usuario a eliminar
 		
 		try {
 			getEjecucion().deleteData(getUsuarios());
 			cargarLista();
 		} catch (Exception e) {
-			// TODO: se debe mandar un mensaje a la pantalla diciendo que
-			// existio un error al guardar
-			e.printStackTrace();
+			lanzarMensajeError("Error", "El cusuario no fue eliminado", 
+					 new Exception("El cusuario no fue eliminado"));
 		} 		
 		finally
 		{
+			setIdRole(0);
 			setUsuarios(new Usuarios());
 			RequestContext.getCurrentInstance().update("IDFusuarios");
 		}
@@ -188,6 +276,7 @@ public class BeansRegistrarUsuario extends Acciones implements Serializable {
 		    setIdRole(getUsuarios().getRoles().getId());
 		    setClave1(getUsuarios().getClave());
 		    setClave2(getUsuarios().getClave());
+		    
 		   
 		}
 		    

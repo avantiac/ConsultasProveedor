@@ -59,21 +59,21 @@
 					</p:row>
 					</p:panelGrid> 
 							
-				<p:dataTable var="tabproy" value="#{beansRegistrarProyecto.listarProyecto}" selectionMode="single"	selection="#{beansRegistrarProyecto.selectProyecto}" rowKey="#{tabproy.id}" >
+				<p:dataTable   var="tabproy" value="#{beansRegistrarProyecto.listarProyecto}" selectionMode="single"	selection="#{beansRegistrarProyecto.selectProyecto}" rowKey="#{tabproy.id}" >
                  
                  <p:ajax event="rowSelect" listener="#{beansRegistrarProyecto.onRowSelect}" /> 
-                 <p:column headerText="#{msj['proyecto.nombre']}">
+                 <p:column headerText="#{msj['proyecto.nombre']}" style="#{msj['columna.nombre']}" >
                  <h:outputText value="#{tabproy.nombre}" />
                  </p:column>
                  
-                 <p:column headerText="#{msj['proyecto.descripcion']}">
-                 <h:outputText value="#{tabproy.descripcion}" />
+                 <p:column headerText="#{msj['proyecto.estado']}" style="#{msj['columna.estado']}"  >
+                 <h:outputText value="#{beansRegistrarProyecto.mostrarEstado(tabproy.estado)}" />
                  </p:column>
                  
-                <p:column headerText="#{msj['proyecto.estado']}" >
-                <h:outputText value="#{tabproy.estado}" />
+                 <p:column headerText="#{msj['proyecto.descripcion']}" >
+                 <h:outputText value="#{tabproy.descripcion}" />
                  </p:column>
-
+                
                  </p:dataTable>
 						
 				</center>

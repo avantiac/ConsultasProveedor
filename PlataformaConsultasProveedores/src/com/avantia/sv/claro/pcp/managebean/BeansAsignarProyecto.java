@@ -3,6 +3,7 @@ package com.avantia.sv.claro.pcp.managebean;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -28,7 +29,8 @@ public class BeansAsignarProyecto extends Acciones implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+    
+	private Asignar_Proyecto validarAsignacion;
 	private Asignar_Proyecto asignarproyecto;
 	private Asignar_Proyecto selectAsignar;
 	private ArrayList<Asignar_Proyecto>litasAsigProy;
@@ -48,44 +50,34 @@ public class BeansAsignarProyecto extends Acciones implements Serializable {
 
 	@SuppressWarnings("unchecked")
 	private void cargarLista() {
-		BdEjecucion ejecucion = new BdEjecucion();
+		
 		try {
-			setLitasAsigProy((ArrayList<Asignar_Proyecto>) ejecucion.listData("FROM ASIGNAR_PROYECTO"));
+			setLitasAsigProy((ArrayList<Asignar_Proyecto>) getEjecucion().listData("FROM ASIGNAR_PROYECTO"));
 		} catch (Exception e) {
-			// TODO: se debe mandar un mensaje a la pantalla diciendo que
-			// existio un error al enlistar
-			e.printStackTrace();
-		} finally {
-			ejecucion = null;
-		}
+			lanzarMensajeError("Error", "La lista de asignaciones no se logro cargar", 
+					new Exception("La lista de asignaciones no se logro cargar"));
+		} 
 	}
 	
 	@SuppressWarnings("unchecked")
 	private void listaProyectos() {
-		BdEjecucion ejecucion = new BdEjecucion();
 		try {
-			setLitarProyectos((ArrayList<Proyectos>) ejecucion.listData("FROM PROYECTOS"));
+			setLitarProyectos((ArrayList<Proyectos>) getEjecucion().listData("FROM PROYECTOS"));
 		} catch (Exception e) {
-			// TODO: se debe mandar un mensaje a la pantalla diciendo que
-			// existio un error al enlistar
-			e.printStackTrace();
-		} finally {
-			ejecucion = null;
-		}
+			lanzarMensajeError("Error", "La lista de proyectos no pudo ser cargada", 
+					new Exception("La lista de proyectos no pudo ser cargada"));
+		} 
 	}
 	
 	@SuppressWarnings("unchecked")
 	private void listaUsuarios() {
-		BdEjecucion ejecucion = new BdEjecucion();
+		
 		try {
-			setLitarUsuarios((ArrayList<Usuarios>) ejecucion.listData("FROM USUARIOS"));
+			setLitarUsuarios((ArrayList<Usuarios>) getEjecucion().listData("FROM USUARIOS"));
 		} catch (Exception e) {
-			// TODO: se debe mandar un mensaje a la pantalla diciendo que
-			// existio un error al enlistar
-			e.printStackTrace();
-		} finally {
-			ejecucion = null;
-		}
+			lanzarMensajeError("Error", "La lista de usuarios no fue cargadada", 
+					new Exception("La lista de usuarios no fue cargadada"));
+		} 
 	}
 	
 	 public void ejecutarProceso(){
@@ -103,9 +95,11 @@ public class BeansAsignarProyecto extends Acciones implements Serializable {
 	   }
 	 
 	 public void cancelar(){
- 		  //setUsuarioSessionMB(new UsuarioSessionMB());
- 		  asignarproyecto.setId(0);
- 		  RequestContext.getCurrentInstance().update("IDFrmPrincipal:IDPnlGridTab5");
+		 
+		 setIdUsuario(0);
+		 setIdProyecto(0);
+		 setAsignarproyecto(new Asignar_Proyecto());
+ 		 RequestContext.getCurrentInstance().update("IDFasignarproyecto");
  		 }
 	 
 	 public boolean validar(){
@@ -119,7 +113,8 @@ public class BeansAsignarProyecto extends Acciones implements Serializable {
 		    
 		    if(getIdProyecto()==0){
 				
-				lanzarMensajeError("Error", "Tiene que seleccionar un proyecto", new Exception("Es obligatorio que el proyecto sea seleccionado"));
+				lanzarMensajeError("Error", "Tiene que seleccionar un proyecto", 
+						new Exception("Es obligatorio que el proyecto sea seleccionado"));
 				return true;
 			}else {
 				
@@ -132,7 +127,9 @@ public class BeansAsignarProyecto extends Acciones implements Serializable {
 		if(validar())
 			return;
 		
-		BdEjecucion ejecucion = new BdEjecucion();
+		if(validarAsignacionProyecto())
+			return;
+		
 		try {
 			
 			asignarproyecto.setFecha_cracion(new Date());
@@ -144,16 +141,18 @@ public class BeansAsignarProyecto extends Acciones implements Serializable {
 			System.out.println("Hola soy el id del proyecto"+idUsuario);
 			getAsignarproyecto().setUsuario(usuario);
 			getAsignarproyecto().setProyecto(proyecto);
-			ejecucion.createData(getAsignarproyecto());
+			getEjecucion().createData(getAsignarproyecto());
 			setAsignarproyecto(new Asignar_Proyecto());
 			cargarLista();
 			RequestContext.getCurrentInstance().update("IDFasignarproyecto");
 		} catch (Exception e) {
-			// TODO: se debe mandar un mensaje a la pantalla diciendo que
-			// existio un error al guardar
-			e.printStackTrace();
+			lanzarMensajeError("Error", "No se pudo asignar el proyecto", 
+					new Exception("No se pudo asignar el proyecto"));
 		} finally {
-			ejecucion = null;
+			setIdProyecto(0);
+			setIdUsuario(0);
+			setAsignarproyecto(new Asignar_Proyecto());
+			RequestContext.getCurrentInstance().update("IDFasignarproyecto");
 		}
 		
 	}
@@ -161,19 +160,32 @@ public class BeansAsignarProyecto extends Acciones implements Serializable {
 	public void actualizarAsignacionProyecto(){
 		if(validar())
 			return;
+		if(validarAsignacionProyecto())
+			return;
 		
-		BdEjecucion ejecucion = new BdEjecucion();
 		try {
-			ejecucion.updateData(getAsignarproyecto());
+			
+			asignarproyecto.setFecha_cracion(new Date());
+			Usuarios usuario = new Usuarios();
+			usuario.setId(idUsuario);
+		    System.out.println("Hola soy el id de usuario"+idUsuario);
+			Proyectos proyecto = new Proyectos();
+			proyecto.setId(idProyecto);
+			System.out.println("Hola soy el id del proyecto"+idUsuario);
+			getAsignarproyecto().setUsuario(usuario);
+			getAsignarproyecto().setProyecto(proyecto);
+			getEjecucion().updateData(getAsignarproyecto());
 			setAsignarproyecto(new Asignar_Proyecto());
 			cargarLista();
 			RequestContext.getCurrentInstance().update("IDFasignarproyecto");
 		} catch (Exception e) {
-			// TODO: se debe mandar un mensaje a la pantalla diciendo que
-			// existio un error al guardar
-			e.printStackTrace();
+			lanzarMensajeError("Error", "No se pudo actualizar el cambio", 
+					new Exception("No se pudo actualizar el cambio"));
 		} finally {
-			ejecucion = null;
+			setIdProyecto(0);
+			setIdUsuario(0);
+			setAsignarproyecto(new Asignar_Proyecto());
+			RequestContext.getCurrentInstance().update("IDFasignarproyecto");
 		}
 		
 		
@@ -185,18 +197,20 @@ public class BeansAsignarProyecto extends Acciones implements Serializable {
 		if(validar())
 			return;
 		
-		BdEjecucion ejecucion = new BdEjecucion();
+		
 		try {
-			ejecucion.deleteData(getAsignarproyecto());
+			getEjecucion().deleteData(getAsignarproyecto());
 			setAsignarproyecto(new Asignar_Proyecto());
 			cargarLista();
 			RequestContext.getCurrentInstance().update("IDFasignarproyecto");
 		} catch (Exception e) {
-			// TODO: se debe mandar un mensaje a la pantalla diciendo que
-			// existio un error al guardar
-			e.printStackTrace();
+			lanzarMensajeError("Error", "No se pudo eliminar la asignacion", 
+					new Exception("No se pudo eliminar la asignacion"));
 		} finally {
-			ejecucion = null;
+			setIdProyecto(0);
+			setIdUsuario(0);
+			setAsignarproyecto(new Asignar_Proyecto());
+			RequestContext.getCurrentInstance().update("IDFasignarproyecto");
 		}
 		
 	}
@@ -214,6 +228,29 @@ public class BeansAsignarProyecto extends Acciones implements Serializable {
 				
 	}
 	
+	public boolean validarAsignacionProyecto() {
+		
+		List<Asignar_Proyecto> confirmar=null;
+		try{
+			@SuppressWarnings("unchecked")
+			List<Asignar_Proyecto> confirmarAsignacion = (ArrayList<Asignar_Proyecto>) getEjecucion().listData("FROM ASIGNAR_PROYECTO where id_usuario = " + getIdUsuario() + " and id_proyecto = " + getIdProyecto()) ;
+			
+			  confirmar= confirmarAsignacion;
+
+		}catch(Exception exp){
+			exp.printStackTrace();
+			
+		}
+		
+		if (!confirmar.isEmpty()){
+			lanzarMensajeError("Error", "El proyecto y el usuario ya se encuentran asignados", 
+					new Exception("El proyecto y el usuario ya se encuentran asignados"));
+            return true;
+			}
+			else {
+				return false;
+			}
+	}
 
 
 	/**
@@ -289,6 +326,20 @@ public class BeansAsignarProyecto extends Acciones implements Serializable {
 
 	public void setSelectAsignar(Asignar_Proyecto selectAsignar) {
 		this.selectAsignar = selectAsignar;
+	}
+
+	/**
+	 * @return the validarAsignacion
+	 */
+	public Asignar_Proyecto getValidarAsignacion() {
+		return validarAsignacion;
+	}
+
+	/**
+	 * @param validarAsignacion the validarAsignacion to set
+	 */
+	public void setValidarAsignacion(Asignar_Proyecto validarAsignacion) {
+		this.validarAsignacion = validarAsignacion;
 	}
 	
 	
