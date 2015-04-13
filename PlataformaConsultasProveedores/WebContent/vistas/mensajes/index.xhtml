@@ -2,51 +2,88 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui"
-	template="./../commons/template.xhtml">
-	<ui:define name="content">
-		<p:panel id="IDPanel" header="#{msj['header.index']}"
-			style="#{msj['p.panelGrande']} margin-top: 10pt;">
-			<h:form id="IDFindex">
-				<center>
-				
-					<p:panelGrid id="gridIndex">
-					<p:row>
-					<p:column>
-					<p:outputLabel value="#{msj['p.token.user']}"  />
-					</p:column>
+	xmlns:p="http://primefaces.org/ui">
 	
-				
-					<p:column>
-					<p:inputText   value="#{beansLogin.usuarios.usuario}" />
-						
-                   
-					</p:column>
-					</p:row>
-					
+		<p:dialog id="IDDialogPreguntas" header="#{msj['dato.title']}"
+		widgetVar="WVDialogVar" resizable="false"
+		showEffect="fade" modal="true" width="1000" closable="false" dynamic="true">
+	<p:panel id="IDPanelpreguntar" header="#{msj['header.preguntas']}"
+			style="#{msj['p.panelGrande']} margin-top: 10pt;">
+			<h:form id="IDFpreguntar3">
+				<center>
+				<p:panelGrid >
+			        
+			        <p:row>
+			        <p:column>
+			        <p:outputLabel value="#{msj['usuarios.nombre']}" />
+			        </p:column>
+			        
+			        <p:column>
+			        <p:outputLabel value="#{beansPreguntasChat.preguntas.asignacion.usuario.usuario}" />
+			        </p:column>
+			        </p:row>
+			        
+			        <p:row>
+			        <p:column>
+			        <p:outputLabel value="#{msj['proyecto.nombre']}" />
+			        </p:column>
+			        
+			        <p:column>
+			        <p:outputLabel value="#{beansPreguntasChat.preguntas.asignacion.proyecto.nombre}"/>
+			        </p:column>
+			        </p:row> 
+			        
+			         <p:row>
+			        <p:column>
+			        <p:outputLabel value="#{msj['chat.descripcion']}" />
+			        </p:column>
+			        
+			        <p:column>
+			        <p:inputTextarea rows="3" cols="33"  value="#{beansPreguntasChat.preguntas.pregunta}" />
+			        </p:column>
+			        </p:row>
+			        
+			       </p:panelGrid> 		
+			        <p:panelGrid>					
 					<p:row>
-					<p:column>
-					<p:outputLabel value="#{msj['p.token.key']}"  />
-					</p:column>				
-			
-					<p:column>
-					<p:password   value="#{beansLogin.usuarios.clave}"  />
+				    <p:column>
+				    <p:commandButton value="#{msj['p.commanButton_Enviar']}" actionListener="#{beansPreguntasChat.realizarPregunta}"/>
+					</p:column>
+					 <p:column>
+				    <p:button value="#{msj['p.commanButton_Retornar']}"/>
 					</p:column>
 					</p:row>
-					
-					<p:row>
-					<p:column>
-					<p:commandButton  value="#{msj['p.commanButton_Iniciar']}" actionListener="#{beansLogin.iniciar}"/>
-					</p:column>
-					
-					<p:column>
-					</p:column>
-					</p:row>
-					
-					</p:panelGrid>
+					</p:panelGrid> 
+							
+				<p:dataTable var="pregmsm"  value="#{beansPreguntasChat.litaPreguntas}" selectionMode="single"	selection="#{beansPreguntasChat.selectPreguntas}" rowKey="#{pregmsm.id}" >
+                 
+                 
+                 <p:ajax event="rowSelect" listener="#{beansPreguntasChat.onRowSelect}" />
+                  <p:column headerText="#{msj['usuarios.nombre']}">
+                 <h:outputText value="#{pregmsm.asignacion.usuario.usuario}" />
+                 </p:column>
+                                   
+                 <p:column headerText="#{msj['proyecto.nombre']}">
+                 <h:outputText value="#{pregmsm.asignacion.proyecto.nombre}" />
+                 </p:column>
+                               
+                 <p:column headerText="#{msj['chat.descripcion']}">
+                 <h:outputText value="#{pregmsm.pregunta}" />
+                 </p:column>
+                 
+                 <p:column headerText="#{msj['chat.descripcion']}">
+                 <h:outputText value="#{pregmsm.estado}" />
+                 </p:column>
+                 
+                <p:column headerText="#{msj['chat.fecha']}" >
+                <h:outputText value="#{pregmsm.fecha_creacion}" />
+                 </p:column>
+                 
+                 </p:dataTable>
 						
 				</center>
 			</h:form>
 		</p:panel>
-	</ui:define>
+	</p:dialog>
+
 </ui:composition>

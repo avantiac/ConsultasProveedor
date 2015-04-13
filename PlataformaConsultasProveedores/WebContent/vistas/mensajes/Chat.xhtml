@@ -10,14 +10,25 @@
 			<h:form id="IDFchat">
 				<center>
 				
+	                			
 					<p:panelGrid>					
 					<p:row>
 				    <p:column>
-				    <p:commandButton value="#{msj['p.commanButton_Preguntar']}" actionListener="#{beansRegistrarProyecto.preguntar}"/>
+				    <p:commandButton value="#{msj['p.commanButton_Preguntar']}" onclick="PF('WVDialogVarPreguntas').show();" />
 					</p:column>
 					 <p:column>
-				    <p:commandButton value="#{msj['p.commanButton_Responder']}" actionListener="#{beansRegistrarProyecto.responder}"/>
+				    <p:commandButton value="#{msj['p.commanButton_Responder']}" onclick="PF('WVDialogRespuestas').show();" />
 					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:row>
+			        <p:column>
+			        <p:outputLabel value="#{msj['proyecto.nombre']}" />
+			        </p:column>
+					
+					<p:selectOneMenu>
+					</p:selectOneMenu>
 					</p:row>
 					</p:panelGrid> 
 							
@@ -48,7 +59,8 @@
 				</center>
 			</h:form>
 		</p:panel>
-		
+		<ui:include src="Preguntas_Chat.xhtml" /> 
+		<ui:include src="Respuestas_Chat.xhtml" />
 	</ui:define>
 	
 		

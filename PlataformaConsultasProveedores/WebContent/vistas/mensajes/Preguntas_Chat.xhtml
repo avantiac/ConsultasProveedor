@@ -2,14 +2,15 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui"
-	template="./../commons/template.xhtml">
-	<ui:define name="content">
-		<p:panel id="IDPanel" header="#{msj['header.preguntas']}"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<p:dialog id="IDDialogPreguntas" header="#{msj['title.preguntas']}"
+		widgetVar="WVDialogVarPreguntas" resizable="false"
+		showEffect="fade" modal="true" width="1000" closable="false" dynamic="true">
+	<p:panel id="IDPanelpreguntar" header="#{msj['header.preguntas']}"
 			style="#{msj['p.panelGrande']} margin-top: 10pt;">
 			<h:form id="IDFpreguntar">
 				<center>
-				
 				<p:panelGrid >
 			        
 			        <p:row>
@@ -70,7 +71,7 @@
                  <h:outputText value="#{pregmsm.pregunta}" />
                  </p:column>
                  
-                 <p:column headerText="#{msj['chat.descripcion']}">
+                 <p:column headerText="#{msj['chat.estado']}">
                  <h:outputText value="#{pregmsm.estado}" />
                  </p:column>
                  
@@ -83,5 +84,5 @@
 				</center>
 			</h:form>
 		</p:panel>
-	</ui:define>
+	</p:dialog>
 </ui:composition>

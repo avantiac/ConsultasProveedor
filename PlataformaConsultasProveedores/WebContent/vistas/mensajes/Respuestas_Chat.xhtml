@@ -2,17 +2,21 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui"
-	template="./../commons/template.xhtml">
-	<ui:define name="content">
-		<p:panel id="IDPanel" header="#{msj['p.token.header']}"
+	xmlns:p="http://primefaces.org/ui">
+	<p:dialog
+	
+	id="IDDialogRespuestas" header="#{msj['title.respuestas']}"
+		widgetVar="WVDialogRespuestas" resizable="false"
+		showEffect="fade" modal="true" width="1000" closable="false" dynamic="true">
+	
+	<p:panel id="IDPanelRespuestas" header="#{msj['header.respuestas']}"
 			style="#{msj['p.panelGrande']} margin-top: 10pt;">
 			<h:form id="IDFrespuestas">
 				<center>
 				
 				<p:panelGrid >
 			        
-			         <p:row>
+			        <p:row>
 			        <p:column>
 			        <p:outputLabel value="#{msj['usuarios.nombre']}" />
 			        </p:column>
@@ -79,5 +83,7 @@
 				</center>
 			</h:form>
 		</p:panel>
-	</ui:define>
+	
+	</p:dialog>
+	
 </ui:composition>
