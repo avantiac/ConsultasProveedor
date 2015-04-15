@@ -19,32 +19,29 @@
 					</p:row>
 					</p:panelGrid> 
 							
-				<p:dataTable widgetVar="preguntaTable" var="tablachat" value="#{beansChat.listapreguntas}" selectionMode="single"  selection="#{beansChat.selectPreguntas}" rowKey="#{tablachat.id}">
+				<p:dataTable widgetVar="preguntaTable" var="tablachat" value="#{beansChat.listapreguntas}" 
+				selectionMode="single"  selection="#{beansChat.selectPreguntas}" rowKey="#{tablachat.id}"
+				rowStyleClass="#{tablachat.estado eq 'false' ? 'verde':'colored'}">
 				
 				<p:ajax event="rowSelect" listener="#{beansChat.onRowSelect}"  /> 
 				
-                <p:column headerText="#{msj['chat.proyecto']}" filterBy="#{tablachat.asignacion.proyecto.nombre}" >
-                
-                <f:facet name="filter">
-                <p:selectOneMenu onchange="PF('preguntaTable').filter()" >
-                    <f:selectItem itemLabel="#{msj['f.selectItem']}" itemValue="#{null}" noSelectionOption="true" />
-                    <f:selectItems value="#{tablachat.asignacion.proyecto.nombre}" />
-                </p:selectOneMenu>
-                </f:facet>
-                
+                <p:column headerText="#{msj['chat.proyecto']}" filterBy="#{tablachat.asignacion.proyecto.nombre}" sortBy="#{tablachat.asignacion.proyecto.nombre}" >
+                  
                 <h:outputText value="#{tablachat.asignacion.proyecto.nombre}"  />
                  </p:column>
                  
                  
-                 <p:column headerText="#{msj['usuarios.usuario']}" >
+                 <p:column headerText="#{msj['usuarios.usuario']}" filterBy="#{tablachat.asignacion.usuario.usuario}" sortBy="#{tablachat.asignacion.usuario.usuario}">
+                 
                 <h:outputText value="#{tablachat.asignacion.usuario.usuario}" />
                  </p:column>
                     
-                  <p:column headerText="#{msj['chat.estado']}">
+                  <p:column headerText="#{msj['chat.estado']}" filterBy="#{beansChat.confirmarEstado(tablachat.estado)}" sortBy="#{beansChat.confirmarEstado(tablachat.estado)}">
+                  
                  <h:outputText value="#{beansChat.confirmarEstado(tablachat.estado)}" />
                  </p:column>
                  
-                 <p:column headerText="#{msj['chat.fecha']}">
+                 <p:column headerText="#{msj['chat.fecha']}"  sortBy="#{tablachat.fecha_creacion}">
                  <h:outputText value="#{tablachat.fecha_creacion}" />
                  </p:column>
                  

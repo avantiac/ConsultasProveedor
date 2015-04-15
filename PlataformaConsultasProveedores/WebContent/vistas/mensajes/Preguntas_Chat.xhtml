@@ -29,7 +29,7 @@
 	                <f:selectItem 	itemLabel="#{msj['f.selectItem']}" 
 	                				itemValue="0"  />
 	                
-	                <f:selectItems 	value="#{beansPreguntasChat.selectProyecto}"
+	                <f:selectItems 	value="#{beansPreguntasChat.proyectos}"
 				                    var="VSelItemsProyectos"
 				                    itemLabel="#{VSelItemsProyectos.proyecto.nombre}"
 				                    itemValue="#{VSelItemsProyectos.proyecto.id}" />
@@ -45,16 +45,16 @@
 			        
 			        <p:column>
 			        <p:selectOneMenu 	id="IDSelOneMnuIdUsuario" 
-			        					value="#{beansPreguntasChat.idUsuario}"
+			        					value="#{beansPreguntasChat.paraPreguntar}"
 			        					style="#{msj['p.selectOneMenu_width_mediano']}"  >
 			        
 			        <f:selectItem 		itemLabel="#{msj['f.selectItem']}" 
 			        					itemValue="0" />
 			        
-			         <f:selectItems 	value="#{beansPreguntasChat.selectUsuario}"
+			         <f:selectItems 	value="#{beansPreguntasChat.usuariosResponder}"
 					                    var="VSelItemsProyectos"
 					                    itemLabel="#{VSelItemsProyectos.usuario.usuario}"
-					                    itemValue="#{VSelItemsProyectos.usuario.id}" />
+					                    itemValue="#{VSelItemsProyectos}" />
 			        
 			        </p:selectOneMenu>
 			        </p:column>
@@ -74,7 +74,8 @@
 			        <p:panelGrid>					
 					<p:row>
 				    <p:column>
-				    <p:commandButton value="#{msj['p.commanButton_Enviar']}" actionListener="#{beansPreguntasChat.realizarPregunta}"/>
+				    <p:commandButton 	value="#{msj['p.commanButton_PreguntarDialogo']}" 
+				    					actionListener="#{beansPreguntasChat.realizarPregunta}"/>
 					</p:column>
 					 <p:column>
 				    <p:button value="#{msj['p.commanButton_Retornar']}"/>

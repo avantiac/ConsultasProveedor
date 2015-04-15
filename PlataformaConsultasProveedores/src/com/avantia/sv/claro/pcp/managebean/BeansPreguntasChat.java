@@ -3,6 +3,7 @@ package com.avantia.sv.claro.pcp.managebean;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -12,60 +13,39 @@ import org.primefaces.context.RequestContext;
 
 import com.avantia.sv.claro.pcp.entidades.Asignar_Proyecto;
 import com.avantia.sv.claro.pcp.entidades.Preguntas;
-import com.avantia.sv.claro.pcp.entidades.Proyectos;
-import com.avantia.sv.claro.pcp.entidades.Usuarios;
 import com.avantia.sv.claro.pcp.managebean.util.Acciones;
-
-
 
 @ManagedBean(name="beansPreguntasChat")
 @ViewScoped
 public class BeansPreguntasChat extends Acciones implements Serializable {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
-	
+	private int idProyecto;
 	private Preguntas  preguntas;
-    private ArrayList<Proyectos>selectProyecto;
-    private ArrayList<Asignar_Proyecto>Asignacion;
-    private ArrayList<Usuarios>selectUsuario;
-    private int idUsuario;
-    private int idProyecto;
-    private Asignar_Proyecto asignar;
-	
+	private List<Asignar_Proyecto> proyectos;
+    private List<Asignar_Proyecto>usuariosResponder;
+    private Asignar_Proyecto paraPreguntar;
+    
     @PostConstruct
 	public void init()
     {		
 		setPreguntas(new Preguntas());
 		listaProyectos();
 	}
-	
+    
+    /**
+     * Obtenemos todos los proyectos para el usuario logueado
+     * */
 	@SuppressWarnings("unchecked")
 	private void listaProyectos() {
 		try {
-			setSelectProyecto((ArrayList<Proyectos>) getEjecucion().listData("FROM ASIGNAR_PROYECTO where id_usuario="+getUsuarioSessionMB().getUsuario().getId()));
+			setProyectos((ArrayList<Asignar_Proyecto>) getEjecucion().listData("FROM ASIGNAR_PROYECTO where id_usuario="+getUsuarioSessionMB().getUsuario().getId()));
 		} catch (Exception e) {
 			lanzarMensajeError("Error", "La lista de proyectos no logro ser cargada", 
 					new Exception("La lista de proyectos no logro ser cargada"));
 		}
 	}
 	
-	private int tomarIdAsignacion() {
-		try {
-			setAsignacion((ArrayList<Asignar_Proyecto>) getEjecucion().listData("FROM ASIGNAR_PROYECTO where id_proyecto="+getIdProyecto()+" and id_usuario= "+getIdUsuario()));
-			
-			setAsignar(getAsignacion().get(0));
-			
-		} catch (Exception e) {
-			lanzarMensajeError("Error", "La lista de proyectos no logro ser cargada", 
-					new Exception("La lista de proyectos no logro ser cargada"));
-		}
-		return getAsignar().getId();
-	}
-		
-
-
 	/**
 	 * Metodo que debe enlistar a los usuarios de acuerdo al id de proyecto
 	 * seleccionado
@@ -75,10 +55,9 @@ public class BeansPreguntasChat extends Acciones implements Serializable {
 	 * */
 	@SuppressWarnings("unchecked")
 	public void listaUsuarios() {
-		System.out.println("se mando un id del proyecto:"+ getIdProyecto());
 		try 
 		{
-			setSelectUsuario((ArrayList<Usuarios>) getEjecucion().listData("FROM ASIGNAR_PROYECTO where id_proyecto="+getIdProyecto()));
+			setUsuariosResponder((ArrayList<Asignar_Proyecto>) getEjecucion().listData("FROM ASIGNAR_PROYECTO where id_proyecto = '"+getIdProyecto() + "' and id_usuario != " + getUsuarioSessionMB().getUsuario().getId() ));
 		} 
 		catch (Exception e) 
 		{
@@ -86,25 +65,26 @@ public class BeansPreguntasChat extends Acciones implements Serializable {
 		}
 	}
 	
+	/**
+	 * Metodo para generar el guardar del objeto pregunta
+	 * */
 	public void realizarPregunta(){
 		try {
-			Asignar_Proyecto idasig = new Asignar_Proyecto();
-			idasig.setId(tomarIdAsignacion());
-			
-			getPreguntas().setAsignacion(idasig);
+			System.out.println("Guardar Pregunta");
+			getPreguntas().setAsignacion(getParaPreguntar());
 			getPreguntas().setFecha_creacion(new Date());
-			getPreguntas().setEstado(true);
+			getPreguntas().setEstado(true);//es para que en el momento de crearse se conozca  como pendiente de preguntar
+			System.out.println("en este momento");
 			getEjecucion().createData(getPreguntas());
-			setPreguntas(new Preguntas());
-			RequestContext.getCurrentInstance().update("IDFpreguntar");
+			System.out.println("yaaaaa");
 		} catch (Exception e) {
 			lanzarMensajeError("Error", "No se registro la pregunta", 
 					new Exception("No se registro la pregunta"));
 		} finally {
 			setPreguntas(new Preguntas());
 			RequestContext.getCurrentInstance().update("IDFpreguntar");
-		}
-		
+			RequestContext.getCurrentInstance().execute("IDDialogPreguntas.hide()");
+		}		
 	}
 	
 
@@ -116,52 +96,11 @@ public class BeansPreguntasChat extends Acciones implements Serializable {
 	}
 
 	/**
-	 * @param preguntas the preguntas to set
+	 * @param preguntas
+	 *            the preguntas to set
 	 */
 	public void setPreguntas(Preguntas preguntas) {
 		this.preguntas = preguntas;
-	}
-
-	/**
-	 * @return the selectProyecto
-	 */
-	public ArrayList<Proyectos> getSelectProyecto() {
-		return selectProyecto;
-	}
-
-	/**
-	 * @param selectProyecto the selectProyecto to set
-	 */
-	public void setSelectProyecto(ArrayList<Proyectos> selectProyecto) {
-		this.selectProyecto = selectProyecto;
-	}
-
-	/**
-	 * @return the selectUsuario
-	 */
-	public ArrayList<Usuarios> getSelectUsuario() {
-		return selectUsuario;
-	}
-
-	/**
-	 * @param selectUsuario the selectUsuario to set
-	 */
-	public void setSelectUsuario(ArrayList<Usuarios> selectUsuario) {
-		this.selectUsuario = selectUsuario;
-	}
-
-	/**
-	 * @return the idUsuario
-	 */
-	public int getIdUsuario() {
-		return idUsuario;
-	}
-
-	/**
-	 * @param idUsuario the idUsuario to set
-	 */
-	public void setIdUsuario(int idUsuario) {
-		this.idUsuario = idUsuario;
 	}
 
 	/**
@@ -172,39 +111,55 @@ public class BeansPreguntasChat extends Acciones implements Serializable {
 	}
 
 	/**
-	 * @param idProyecto the idProyecto to set
+	 * @param idProyecto
+	 *            the idProyecto to set
 	 */
 	public void setIdProyecto(int idProyecto) {
 		this.idProyecto = idProyecto;
 	}
 
 	/**
-	 * @return the asignacion
+	 * @return the paraPreguntar
 	 */
-	public ArrayList<Asignar_Proyecto> getAsignacion() {
-		return Asignacion;
+	public Asignar_Proyecto getParaPreguntar() {
+		return paraPreguntar;
 	}
 
 	/**
-	 * @param asignacion the asignacion to set
+	 * @param paraPreguntar
+	 *            the paraPreguntar to set
 	 */
-	public void setAsignacion(ArrayList<Asignar_Proyecto> asignacion) {
-		Asignacion = asignacion;
+	public void setParaPreguntar(Asignar_Proyecto paraPreguntar) {
+		this.paraPreguntar = paraPreguntar;
 	}
 
 	/**
-	 * @return the asignar
+	 * @return the proyectos
 	 */
-	public Asignar_Proyecto getAsignar() {
-		return asignar;
+	public List<Asignar_Proyecto> getProyectos() {
+		return proyectos;
 	}
 
 	/**
-	 * @param asignar the asignar to set
+	 * @param proyectos
+	 *            the proyectos to set
 	 */
-	public void setAsignar(Asignar_Proyecto asignar) {
-		this.asignar = asignar;
+	public void setProyectos(List<Asignar_Proyecto> proyectos) {
+		this.proyectos = proyectos;
 	}
 
-	
+	/**
+	 * @return the usuariosResponder
+	 */
+	public List<Asignar_Proyecto> getUsuariosResponder() {
+		return usuariosResponder;
+	}
+
+	/**
+	 * @param usuariosResponder
+	 *            the usuariosResponder to set
+	 */
+	public void setUsuariosResponder(List<Asignar_Proyecto> usuariosResponder) {
+		this.usuariosResponder = usuariosResponder;
+	}	
 }

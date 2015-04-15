@@ -4,16 +4,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 
 import com.avantia.sv.claro.pcp.entidades.Preguntas;
-import com.avantia.sv.claro.pcp.entidades.Proyectos;
 import com.avantia.sv.claro.pcp.jdbc.BdEjecucion;
 import com.avantia.sv.claro.pcp.managebean.util.Acciones;
 
@@ -23,9 +20,6 @@ import com.avantia.sv.claro.pcp.managebean.util.Acciones;
 @ViewScoped
 public class BeansChat extends Acciones implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
     private Preguntas preguntas; 
     private Preguntas selectPreguntas;
@@ -73,7 +67,7 @@ public class BeansChat extends Acciones implements Serializable{
 			ejecucion = null;
 		}
 	}
-	
+		
 	
 	public void preguntar(){
 		
@@ -128,8 +122,5 @@ public class BeansChat extends Acciones implements Serializable{
 	public void setSelectPreguntas(Preguntas selectPreguntas) {
 		this.selectPreguntas = selectPreguntas;
 	}
-
-	
-	
-	
+		
 }

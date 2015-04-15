@@ -279,6 +279,7 @@ h1 {
 	position:absolute;
 }
 
+
 .ui-widget-content{
 	background : #fbfbfb;
 	border: 1px solid #898989;
@@ -293,4 +294,14 @@ h1 {
 }
 .ui-picklist .ui-picklist-list{
 	width : 300px !important;
+}
+
+.colored {
+background-color: #FF0000;
+color: #FFFFFF;
+}
+
+.verde {  
+    color: #FFFFFF;  
+    background-color: #2E8B57;    
 }
