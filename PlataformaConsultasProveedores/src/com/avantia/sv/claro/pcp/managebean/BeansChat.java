@@ -28,21 +28,36 @@ public class BeansChat extends Acciones implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
     private Preguntas preguntas; 
+    private Preguntas selectPreguntas;
     private ArrayList<Preguntas>listapreguntas;
 	
 	@PostConstruct
 	public void init(){
 		preguntas= new Preguntas();
 		listapreguntas= new ArrayList<Preguntas>();
-		//cargarLista();
+		cargarLista();
 	}
 	
 	public void onRowSelect(SelectEvent event) 
 	{
-		setPreguntas(((Preguntas) event.getObject()));
+		setSelectPreguntas(((Preguntas) event.getObject()));
+		if(getSelectPreguntas()!=null)
+			setPreguntas(getSelectPreguntas());
 		RequestContext.getCurrentInstance().update("IDFchat");
 		
 			
+	}
+	
+	public String confirmarEstado(String estado){
+		
+		if(estado.equals("true")){
+			
+			return "Pendiente";
+		}else{
+			
+			return "Contestado";
+		}
+		
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -58,15 +73,7 @@ public class BeansChat extends Acciones implements Serializable{
 			ejecucion = null;
 		}
 	}
-	private void mostrarMensajeError(String msg) {
-		RequestContext requestContext = RequestContext.getCurrentInstance();
-		FacesContext context = FacesContext.getCurrentInstance();
-		context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-				"", msg));
-		if (requestContext != null) {
-			requestContext.update("IDGrowlErrorSistemas");
-		}
-	}
+	
 	
 	public void preguntar(){
 		
@@ -106,6 +113,20 @@ public class BeansChat extends Acciones implements Serializable{
 	 */
 	public void setListapreguntas(ArrayList<Preguntas> listapreguntas) {
 		this.listapreguntas = listapreguntas;
+	}
+
+	/**
+	 * @return the selectPreguntas
+	 */
+	public Preguntas getSelectPreguntas() {
+		return selectPreguntas;
+	}
+
+	/**
+	 * @param selectPreguntas the selectPreguntas to set
+	 */
+	public void setSelectPreguntas(Preguntas selectPreguntas) {
+		this.selectPreguntas = selectPreguntas;
 	}
 
 	

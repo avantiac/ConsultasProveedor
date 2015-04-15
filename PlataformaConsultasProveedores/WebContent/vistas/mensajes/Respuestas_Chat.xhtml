@@ -58,28 +58,7 @@
 					</p:column>
 					</p:row>
 					</p:panelGrid> 
-							
-				<p:dataTable var="respsms" value="#{beansRespuestaChat.listaresp}"  selectionMode="single"	selection="#{beansRespuestaChat.selectRerpuestas}" rowKey="#{respsms.id}">
-                 
-                 <p:ajax event="rowSelect" listener="#{beansRespuestaChat.onRowSelect}" />
-                 <p:column headerText="#{msj['usuarios.nombre']}">
-                 <h:outputText value="#{respsms.asignacion.usuario.usuario}" />
-                 </p:column>
-                 
-                 <p:column headerText="#{msj['proyecto.nombre']}">
-                 <h:outputText value="#{respsms.asignacion.proyecto.nombre}" />
-                 </p:column>
-                               
-                 <p:column headerText="#{msj['chat.descripcion']}">
-                 <h:outputText value="#{respsms.respuesta}" />
-                 </p:column>
-                 
-                <p:column headerText="#{msj['chat.fecha']}" >
-                <h:outputText value="#{respsms.fecha_creacion}" />
-                 </p:column>
-                 
-                 </p:dataTable>
-						
+								
 				</center>
 			</h:form>
 		</p:panel>

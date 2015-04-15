@@ -1,0 +1,31 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	template="./../commons/template.xhtml">
+	<ui:define name="content">
+		<p:panel id="IDPanel" header="#{msj['p.token.header']}"
+			style="#{msj['p.panelGrande']} margin-top: 10pt;">
+			<h:form id="IDFrmUserNameToken">
+				<center>
+					<p:panelGrid>
+						<p:selectOneMenu style="#{msj['p.inputText_width_mediano']}"
+							value="#{mymb.employeeID}">
+							<p:ajax listener="#{mymb.handleChange}" update="SelectOneMenuX" />
+							<f:selectItem itemLabel="#{msj['f.selectItem']}" itemValue="0" />
+							<f:selectItems value="#{mymb.employeesList}" />
+						</p:selectOneMenu>
+						<br />
+						<p:selectOneMenu id="SelectOneMenuX"
+							style="#{msj['p.inputText_width_mediano']}" value="#{mymb.jobID}">
+							<p:ajax listener="#{mymb.handleChangeJob}" />
+							<f:selectItem itemLabel="#{msj['f.selectItem']}" itemValue="0" />
+							<f:selectItems value="#{mymb.jobList}" />
+						</p:selectOneMenu>
+					</p:panelGrid>
+				</center>
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>

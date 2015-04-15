@@ -16,38 +16,32 @@
 				    <p:column>
 				    <p:commandButton value="#{msj['p.commanButton_Preguntar']}" onclick="PF('WVDialogVarPreguntas').show();" />
 					</p:column>
-					 <p:column>
-				    <p:commandButton value="#{msj['p.commanButton_Responder']}" onclick="PF('WVDialogRespuestas').show();" />
-					</p:column>
-					</p:row>
-					
-					
-					<p:row>
-			        <p:column>
-			        <p:outputLabel value="#{msj['proyecto.nombre']}" />
-			        </p:column>
-					
-					<p:selectOneMenu>
-					</p:selectOneMenu>
 					</p:row>
 					</p:panelGrid> 
 							
-				<p:dataTable var="tablachat" value="#{beansChat.listapreguntas}" >
-                <p:column headerText="#{msj['chat.proyecto']}" >
-                <h:outputText value="#{tablachat.proyecto}" />
+				<p:dataTable widgetVar="preguntaTable" var="tablachat" value="#{beansChat.listapreguntas}" selectionMode="single"  selection="#{beansChat.selectPreguntas}" rowKey="#{tablachat.id}">
+				
+				<p:ajax event="rowSelect" listener="#{beansChat.onRowSelect}"  /> 
+				
+                <p:column headerText="#{msj['chat.proyecto']}" filterBy="#{tablachat.asignacion.proyecto.nombre}" >
+                
+                <f:facet name="filter">
+                <p:selectOneMenu onchange="PF('preguntaTable').filter()" >
+                    <f:selectItem itemLabel="#{msj['f.selectItem']}" itemValue="#{null}" noSelectionOption="true" />
+                    <f:selectItems value="#{tablachat.asignacion.proyecto.nombre}" />
+                </p:selectOneMenu>
+                </f:facet>
+                
+                <h:outputText value="#{tablachat.asignacion.proyecto.nombre}"  />
                  </p:column>
                  
                  
-                 <p:column headerText="#{msj['chat.nombre']}" >
+                 <p:column headerText="#{msj['usuarios.usuario']}" >
                 <h:outputText value="#{tablachat.asignacion.usuario.usuario}" />
                  </p:column>
-                 
-                 <p:column headerText="#{msj['chat.descripcion']}">
-                 <h:outputText value="#{tablachat.pregunta}"  />
-                 </p:column>
-                 
+                    
                   <p:column headerText="#{msj['chat.estado']}">
-                 <h:outputText value="#{tablachat.estado}" />
+                 <h:outputText value="#{beansChat.confirmarEstado(tablachat.estado)}" />
                  </p:column>
                  
                  <p:column headerText="#{msj['chat.fecha']}">
@@ -60,7 +54,6 @@
 			</h:form>
 		</p:panel>
 		<ui:include src="Preguntas_Chat.xhtml" /> 
-		<ui:include src="Respuestas_Chat.xhtml" />
 	</ui:define>
 	
 		
